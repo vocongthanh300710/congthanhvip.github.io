@@ -3,68 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>congthanhvip — Lời giải bài tập</title>
-<style>
-  * { box-sizing: border-box; }
-  body { margin: 0; background: #fff; color: #1f2328;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    line-height: 1.75; }
-  .wrap { max-width: 760px; margin: 0 auto; padding: 48px 24px 80px; }
-  h1 { font-size: 30px; margin: 0 0 8px; color: #0a3069; }
-  .sub { color: #656d76; font-size: 15px; margin-bottom: 40px; }
-  .card { display: block; text-decoration: none; color: inherit;
-    background: #f6f8fa; border: 1px solid #d0d7de; border-radius: 10px;
-    padding: 20px 24px; margin-bottom: 16px; transition: 0.15s; }
-  .card:hover { border-color: #0969da; background: #f0f8ff; }
-  .card h2 { margin: 0 0 6px; font-size: 19px; color: #0969da; }
-  .card p { margin: 0; color: #656d76; font-size: 14px; }
-  .tag { display: inline-block; background: #ddf4ff; color: #0969da;
-    padding: 2px 10px; border-radius: 12px; font-size: 12px;
-    margin-right: 6px; margin-top: 10px; }
-  footer { color: #656d76; font-size: 13px; text-align: center; padding: 40px 0 0; }
-</style>
-</head>
-<body>
-<div class="wrap">
-
-<h1>Lời giải bài tập</h1>
-<div class="sub">Phân tích + code C++ + demo trực quan</div>
-
-<a class="card" href="trip01.html">
-  <h2>TRIP01 — Hành trình quay về đỉnh 1</h2>
-  <p>Đồ thị có hướng, mỗi cung tốn 1 đơn vị thời gian, tìm tổng phần thưởng lớn nhất khi quay về đỉnh 1 đúng lúc T.</p>
-  <span class="tag">Ma trận max-plus</span>
-  <span class="tag">Luỹ thừa nhanh</span>
-  <span class="tag">O(N³ log T)</span>
-</a>
-
-<a class="card" href="trip02.html">
-  <h2>TRIP02 — Hành trình có sự kiện đặc biệt</h2>
-  <p>Cung có trọng số thời gian w (1…5), k sự kiện (t, x, y) cộng thưởng nếu ở đúng đỉnh đúng lúc.</p>
-  <span class="tag">Ma trận 5n</span>
-  <span class="tag">Sự kiện</span>
-  <span class="tag">O((5n)³ log T)</span>
-</a>
-
-<footer>congthanhvip.github.io · 2026-10-10</footer>
-</div>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TRIP01 — Lời giải</title>
 <style>
   * { box-sizing: border-box; }
   body { margin: 0; background: #fff; color: #1f2328;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     line-height: 1.75; }
-  .wrap { max-width: 880px; margin: 0 auto; padding: 24px 24px 80px; }
-  .back { display: inline-block; color: #0969da; text-decoration: none;
-    font-size: 14px; margin-bottom: 16px; }
-  .back:hover { text-decoration: underline; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 32px 24px 80px; }
   h1 { font-size: 28px; margin: 0 0 8px; color: #0a3069; }
   .sub { color: #656d76; font-size: 15px; margin-bottom: 24px; }
   h2 { font-size: 22px; margin-top: 40px; padding-top: 16px;
@@ -115,10 +60,8 @@
 <body>
 <div class="wrap">
 
-<a class="back" href="index.html">← Về trang chủ</a>
-
-<h1>TRIP01 — Hành trình quay về đỉnh 1</h1>
-<div class="sub">Tổng phần thưởng lớn nhất khi quay về đỉnh 1 đúng lúc T</div>
+<h1>TRIP01 — Lời giải</h1>
+<div class="sub">Hành trình quay về đỉnh 1 đúng T bước · Tổng phần thưởng lớn nhất</div>
 
 <div>
   <span class="tag">Đồ thị có hướng</span>
@@ -130,8 +73,8 @@
 <h2>1. Đề bài</h2>
 <p>Cho đồ thị có hướng <code>N</code> đỉnh, <code>M</code> cung. Mỗi đỉnh <code>i</code> có trọng số
 phần thưởng <code>c[i]</code>. Mỗi cung tốn 1 đơn vị thời gian. Xuất phát tại đỉnh 1 lúc t=0,
-quay về đỉnh 1 đúng lúc T. Mỗi lần ghé đỉnh nhận <code>c[i]</code>. Tìm tổng phần thưởng lớn nhất,
-hoặc <code>-1</code>.</p>
+quay về đỉnh 1 đúng lúc T. Mỗi lần ghé đỉnh nhận <code>c[i]</code>.
+Tìm tổng phần thưởng lớn nhất, hoặc <code>-1</code>.</p>
 
 <table>
 <tr><th>Ràng buộc</th><th>Giá trị</th></tr>
@@ -141,7 +84,7 @@ hoặc <code>-1</code>.</p>
 <tr><td>c[i]</td><td>1 … 10⁴</td></tr>
 </table>
 
-<h2>2. Ý tưởng</h2>
+<h2>2. Ý tưởng (theo lời giải thích của thầy)</h2>
 
 <div class="box quote">
 <strong>💬 Trích lời thầy:</strong><br>
@@ -178,7 +121,50 @@ Vậy phải cộng thêm <code>c[1]</code> ở cuối.
 <p>Chu trình 1→2→3→1 dài 3 bước, điểm mỗi vòng = 2 + 8 + 5 = 15.</p>
 <p>T = 6 = 3×2 → <code>M⁶[1][1] = 30</code>. Cộng <code>c[1] = 5</code> → <strong>35</strong>. ✓</p>
 
-<h2>3. Code C++</h2>
+<h2>3. Vì sao dùng nhân ma trận?</h2>
+
+<h3>3.1. Bước đi = một phép biến đổi</h3>
+<p>Nhìn lại <code>M[u][v] = c[v]</code>: khi ở <code>u</code> bước sang <code>v</code>,
+phần thưởng cộng thêm đúng bằng <code>M[u][v]</code>. Vậy <strong>một bước đi = một lần
+áp dụng ma trận M</strong>.</p>
+
+<h3>3.2. Hai bước liên tiếp = M²</h3>
+<p>Đi từ <code>u</code> sang <code>v</code> qua 2 cạnh phải qua đỉnh trung gian <code>k</code>:</p>
+<pre><code>u → k → v</code></pre>
+<p>Điểm = <code>M[u][k] + M[k][v]</code>. Muốn tối ưu, thử mọi <code>k</code>:</p>
+<pre><code>M²[u][v] = max_k ( M[u][k] + M[k][v] )</code></pre>
+<p>Đây <strong>chính xác</strong> là công thức nhân max-plus:</p>
+<pre><code>(X ⊗ Y)[i][j] = max_k ( X[i][k] + Y[k][j] )</code></pre>
+
+<h3>3.3. Quy nạp: k bước = Mᵏ</h3>
+<pre><code>M<sup>k</sup>[u][v] = điểm lớn nhất đi từ u đến v qua đúng k cạnh</code></pre>
+
+<h3>3.4. Vì sao cần luỹ thừa nhanh?</h3>
+<p><code>T</code> tới <code>10⁹</code>. Nếu nhân tuần tự:</p>
+<pre><code>T × O(N³) ≈ 10⁹ × 250³ → quá lớn, không chạy nổi</code></pre>
+<p>Nhưng nhân ma trận <strong>kết hợp</strong> → dùng luỹ thừa nhị phân:</p>
+<pre><code>M<sup>T</sup> = M<sup>b₀</sup> ⊗ M<sup>2b₁</sup> ⊗ M<sup>4b₂</sup> ⊗ …</code></pre>
+<p>Chỉ tốn <code>O(log T)</code> phép nhân → <code>O(N³ log T)</code> ≈ <code>4.7 × 10⁸</code> phép.</p>
+
+<div class="box accent">
+<strong>4 lý do dùng nhân ma trận:</strong>
+<ol>
+<li><strong>T quá lớn</strong> để mô phỏng từng bước.</li>
+<li><strong>Một bước đi</strong> biểu diễn thành phép áp dụng ma trận <code>M</code>.</li>
+<li><strong>k bước liên tiếp</strong> = <code>M<sup>k</sup></code>, nhờ nhân max-plus.</li>
+<li><strong>Tính kết hợp</strong> cho phép luỹ thừa nhanh → T = 10⁹ chỉ trong O(log T) phép nhân.</li>
+</ol>
+</div>
+
+<h3>3.5. So sánh các cách tiếp cận</h3>
+<table>
+<tr><th>Cách</th><th>Phức tạp</th><th>Với T = 10⁹</th></tr>
+<tr><td>DP từng bước</td><td>O(T · M)</td><td>Quá chậm</td></tr>
+<tr><td>Dijkstra / Bellman-Ford</td><td>Không áp dụng được</td><td>Cần <em>đúng T bước</em></td></tr>
+<tr><td><strong>Ma trận max-plus + luỹ thừa nhanh</strong></td><td>O(N³ log T)</td><td>Chạy tốt</td></tr>
+</table>
+
+<h2>4. Code C++</h2>
 <pre><code><span class="pp">#include</span><span class="str">&lt;bits/stdc++.h&gt;</span>
 <span class="pp">#define</span> ll <span class="kw">long long</span>
 <span class="kw">using namespace</span> std;
@@ -238,29 +224,29 @@ ll t, c[N], a[N][N], b[N][N], d[N][N];
     <span class="fn">solve</span>();
 }</code></pre>
 
-<h2>4. Chạy thử</h2>
+<h2>5. Chạy thử</h2>
 <div class="demo">
   <div class="io">
     <div>
       <label style="font-size:13px; color:#656d76">Input</label>
-      <textarea id="inp1">3 4 6
+      <textarea id="inp">3 4 6
 5 2 8
 1 2
 2 1
 2 3
 3 1</textarea>
-      <button onclick="runTrip01()">▶ Chạy</button>
+      <button onclick="runDemo()">▶ Chạy</button>
     </div>
     <div>
       <label style="font-size:13px; color:#656d76">Output</label>
-      <div class="out" id="out1">—</div>
+      <div class="out" id="out">—</div>
     </div>
   </div>
 </div>
 
 <div class="demo">
-  <h3 style="margin-top:0">📊 Đồ thị</h3>
-  <canvas id="graph1" width="820" height="420"
+  <h3 style="margin-top:0">📊 Đồ thị có hướng</h3>
+  <canvas id="graph" width="820" height="420"
     style="width:100%; background:#fff; border:1px solid #d0d7de; border-radius:6px;"></canvas>
   <div style="margin-top:10px; font-size:13px; color:#656d76">
     🔴 Đỉnh 1 (xuất phát) · 🔵 Đỉnh khác
@@ -268,188 +254,262 @@ ll t, c[N], a[N][N], b[N][N], d[N][N];
 </div>
 
 <div class="demo">
-  <h3 style="margin-top:0">🧪 Test từ đề gốc</h3>
+  <h3 style="margin-top:0">🧪 Test mẫu</h3>
   <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px">
-    <button onclick="loadTest1(0)" style="background:#0969da">Ví dụ 1</button>
-    <button onclick="loadTest1(1)" style="background:#0969da">Ví dụ 2</button>
+    <button onclick="loadTest(0)" style="background:#0969da">Test 1 (đề)</button>
+    <button onclick="loadTest(1)" style="background:#0969da">Test 2 (đề)</button>
+    <button onclick="loadTest(2)" style="background:#0969da">Test 3</button>
+    <button onclick="loadTest(3)" style="background:#0969da">Test 4</button>
+    <button onclick="loadTest(4)" style="background:#0969da">Test 5</button>
   </div>
-  <div id="explain1" style="background:#fff; border:1px solid #d0d7de; border-radius:6px; padding:12px 16px; font-size:14px;"></div>
+  <div id="explain" style="background:#fff; border:1px solid #d0d7de; border-radius:6px; padding:12px 16px; font-size:14px; line-height:1.7;"></div>
 </div>
+
+<h2>6. Độ phức tạp</h2>
+<table>
+<tr><th>Bước</th><th>Phức tạp</th></tr>
+<tr><td>Dựng ma trận</td><td>O(N² + M)</td></tr>
+<tr><td>Luỹ thừa nhanh M<sup>T</sup></td><td>O(N³ log T)</td></tr>
+<tr><td>Tổng</td><td>O(N³ log T) — N=250, log T ≈ 30 → chạy tốt trong 1–2 giây</td></tr>
+</table>
 
 </div>
 
-<footer>TRIP01 · congthanhvip.github.io · 2026-10-10</footer>
+<footer>
+  TRIP01 · congthanhvip.github.io · 2026-10-10
+</footer>
 
 <script>
-const TESTS1 = [
+const TESTS = [
   {
-    name: "Ví dụ 1",
+    name: "Test 1 (đề ví dụ 1)",
     input: "3 4 6\n5 2 8\n1 2\n2 1\n2 3\n3 1",
     explain: `
-      <strong>Input:</strong> N=3, M=4, T=6, c=[5,2,8], cung: 1→2, 2→1, 2→3, 3→1.<br><br>
+      <strong>Input:</strong> N=3, M=4, T=6, c = [5,2,8], cung: 1→2, 2→1, 2→3, 3→1.<br><br>
       <strong>Các chu trình quay về 1:</strong><br>
-      • 1→2→1 (2 bước): điểm = 5+2+5 = 12 → TB 6/bước<br>
-      • 1→2→3→1 (3 bước): điểm = 5+2+8+5 = 20 → TB 6.67/bước<br><br>
+      • 1→2→1 (2 bước): 5+2+5 = 12 → TB 6/bước<br>
+      • 1→2→3→1 (3 bước): 5+2+8+5 = 20 → TB 6.67/bước<br><br>
       <strong>Chọn chu trình tốt hơn:</strong> 1→2→3→1. Với T=6 = 3×2, lặp 2 vòng.<br>
       <strong>Tổng:</strong> 5 (t=0) + 2 + 8 + 5 (t=3) + 2 + 8 + 5 (t=6) = <strong style="color:#1a7f37">35</strong>
     `
   },
   {
-    name: "Ví dụ 2",
+    name: "Test 2 (đề ví dụ 2)",
     input: "4 4 5\n10 20 30 40\n1 2\n2 3\n3 4\n4 1",
     explain: `
-      <strong>Input:</strong> N=4, M=4, T=5, c=[10,20,30,40].<br>
+      <strong>Input:</strong> N=4, M=4, T=5, c = [10,20,30,40].<br>
       <strong>Đồ thị:</strong> một chu trình 1→2→3→4→1 (độ dài 4).<br><br>
       Muốn về 1, số bước phải là bội của 4: 4, 8, 12, …<br>
-      Nhưng T=5 không chia hết cho 4 → tại t=5 đang ở đỉnh 2, không thể ở 1.<br><br>
+      Nhưng T=5 không chia hết cho 4. Tại t=5 ta đang ở đỉnh 2, không thể ở đỉnh 1.<br><br>
+      <strong>Kết quả:</strong> <strong style="color:#cf222e">-1</strong> (không có hành trình hợp lệ)
+    `
+  },
+  {
+    name: "Test 3 (chu trình 2 bước)",
+    input: "2 2 4\n7 3\n1 2\n2 1",
+    explain: `
+      <strong>Input:</strong> N=2, M=2, T=4, c = [7,3], cung: 1↔2.<br><br>
+      Chỉ có 1 chu trình: 1→2→1 (2 bước), điểm mỗi vòng = 3+7 = 10 (không tính c1 lúc đầu).<br>
+      T=4 = 2 vòng → M⁴[1][1] = 10×2 = 20.<br>
+      Cộng c[1]=7 tại t=0: 20+7 = <strong style="color:#1a7f37">27</strong><br><br>
+      <strong>Kiểm tra thủ công:</strong> 7(t=0) + 3 + 7 + 3 + 7(t=4) = 27 ✓
+    `
+  },
+  {
+    name: "Test 4 (T lẻ, không về được)",
+    input: "2 2 3\n5 10\n1 2\n2 1",
+    explain: `
+      <strong>Input:</strong> N=2, M=2, T=3, c = [5,10], cung: 1↔2.<br><br>
+      Chu trình 1→2→1 dài 2 bước. Muốn về 1, T phải chẵn.<br>
+      Nhưng T=3 là số lẻ → tại t=3 ta đang ở đỉnh 2, không thể ở 1.<br><br>
       <strong>Kết quả:</strong> <strong style="color:#cf222e">-1</strong>
+    `
+  },
+  {
+    name: "Test 5 (nhiều cung song song)",
+    input: "3 5 4\n2 5 7\n1 2\n1 2\n2 3\n3 1\n1 3",
+    explain: `
+      <strong>Input:</strong> N=3, M=5, T=4, c = [2,5,7].<br>
+      Cung: 1→2 (2 lần), 2→3, 3→1, 1→3.<br><br>
+      <strong>Hai chu trình quay về 1:</strong><br>
+      • 1→3→1 (2 bước): 2+7+2 = 11 → TB 5.5<br>
+      • 1→2→3→1 (3 bước): 2+5+7+2 = 16 → TB 5.33<br><br>
+      T=4 = 2 vòng của chu trình 1→3→1: M⁴[1][1] = 11×2 = 22.<br>
+      Cộng c[1]=2: 22+2 = <strong style="color:#1a7f37">24</strong>
     `
   }
 ];
 
-function loadTest1(i){
-  const t = TESTS1[i];
-  document.getElementById('inp1').value = t.input;
-  document.getElementById('explain1').innerHTML =
-    '<strong>📖 ' + t.name + '</strong><br><br>' + t.explain;
-  runTrip01();
+function loadTest(idx){
+  const t = TESTS[idx];
+  document.getElementById('inp').value = t.input;
+  document.getElementById('explain').innerHTML = '<strong>📖 Giải thích ' + t.name + '</strong><br><br>' + t.explain;
+  runDemo();
 }
 
-function runTrip01(){
-  const raw = document.getElementById('inp1').value.trim();
+function runDemo(){
+  const raw = document.getElementById('inp').value.trim();
   const lines = raw.split(/\n+/).map(l => l.trim()).filter(Boolean);
-  const out = document.getElementById('out1');
+  const out = document.getElementById('out');
   try {
-    const p = lines[0].split(/\s+/).map(Number);
-    const n = p[0], m = p[1];
-    let t0 = p[2];
-    const c = [0].concat(lines[1].split(/\s+/).map(Number));
+    const [n, m, t0] = lines[0].split(/\s+/).map(Number);
+    const c = [0, ...lines[1].split(/\s+/).map(Number)];
     if (c.length - 1 !== n) throw new Error("Số đỉnh không khớp trọng số");
 
     const edges = [];
     for (let k = 0; k < m; k++){
-      const uv = lines[2+k].split(/\s+/).map(Number);
-      edges.push([uv[0], uv[1]]);
+      const [u, v] = lines[2+k].split(/\s+/).map(Number);
+      edges.push([u, v]);
     }
 
-    const INF = 1e18;
-    let a = [], b = [], d = [];
-    for (let i = 0; i <= n; i++){
-      a.push(new Array(n+1).fill(-INF));
-      b.push(new Array(n+1).fill(-INF));
-      d.push(new Array(n+1).fill(-INF));
-    }
+    const NEG = -1e15;
+    let a = Array.from({length:n+1}, () => new Array(n+1).fill(NEG));
     for (const [u, v] of edges){
       a[u][v] = Math.max(a[u][v], c[v]);
     }
+    let b = Array.from({length:n+1}, () => new Array(n+1).fill(NEG));
     for (let i = 1; i <= n; i++) b[i][i] = 0;
 
-    function mul(x, y, z){
-      for (let i = 1; i <= n; i++){
+    function mul(x, y){
+      const z = Array.from({length:n+1}, () => new Array(n+1).fill(NEG));
+      for (let i = 1; i <= n; i++)
         for (let j = 1; j <= n; j++){
-          z[i][j] = -INF;
-          for (let k = 1; k <= n; k++){
-            if (x[i][k] !== -INF && y[k][j] !== -INF){
-              z[i][j] = Math.max(z[i][j], x[i][k] + y[k][j]);
-            }
-          }
+          let best = NEG;
+          for (let k = 1; k <= n; k++)
+            if (x[i][k] !== NEG && y[k][j] !== NEG)
+              best = Math.max(best, x[i][k] + y[k][j]);
+          z[i][j] = best;
         }
-      }
+      return z;
     }
-
     let t = t0;
     while (t > 0){
-      if (t & 1){
-        mul(b, a, d);
-        for (let i = 1; i <= n; i++)
-          for (let j = 1; j <= n; j++) b[i][j] = d[i][j];
-      }
-      mul(a, a, d);
-      for (let i = 1; i <= n; i++)
-        for (let j = 1; j <= n; j++) a[i][j] = d[i][j];
+      if (t & 1) b = mul(b, a);
+      a = mul(a, a);
       t >>= 1;
     }
-    out.textContent = (b[1][1] === -INF) ? "-1" : String(b[1][1] + c[1]);
-    drawGraph1(n, c, edges);
+    out.textContent = b[1][1] === NEG ? "-1" : String(b[1][1] + c[1]);
+    drawGraph(n, c, edges);
   } catch(e){
     out.textContent = "Lỗi input: " + e.message;
+    const ctx = document.getElementById('graph').getContext('2d');
+    ctx.clearRect(0, 0, 820, 420);
   }
 }
 
-function drawGraph1(n, c, edges){
-  const cv = document.getElementById('graph1');
-  const ctx = cv.getContext('2d');
-  const W = cv.width, H = cv.height;
+function drawGraph(n, c, edges){
+  const canvas = document.getElementById('graph');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
   ctx.clearRect(0, 0, W, H);
-  const cx = W/2, cy = H/2, R = Math.min(W,H)/2 - 70;
+
+  const cx = W / 2, cy = H / 2;
+  const R = Math.min(W, H) / 2 - 70;
   const pos = {};
   for (let i = 1; i <= n; i++){
-    const ang = -Math.PI/2 + (i-1)*2*Math.PI/n;
-    pos[i] = { x: cx + R*Math.cos(ang), y: cy + R*Math.sin(ang) };
+    const ang = -Math.PI / 2 + (i - 1) * 2 * Math.PI / n;
+    pos[i] = { x: cx + R * Math.cos(ang), y: cy + R * Math.sin(ang) };
   }
+
   const nodeR = 26;
-  const grp = {}, seen = {};
-  for (const [u,v] of edges){ const k = u+'-'+v; grp[k] = (grp[k]||0)+1; }
-  const colors = ['#0969da','#1a7f37','#8250df','#bf3989','#9a6700','#cf222e'];
+
+  const grouped = {};
+  for (const [u, v] of edges){
+    const key = u + '-' + v;
+    grouped[key] = (grouped[key] || 0) + 1;
+  }
+  const seen = {};
+  const edgeColors = ['#0969da','#1a7f37','#8250df','#bf3989','#9a6700','#cf222e'];
+
   for (let idx = 0; idx < edges.length; idx++){
-    const [u,v] = edges[idx];
+    const [u, v] = edges[idx];
     const p1 = pos[u], p2 = pos[v];
-    const key = u+'-'+v;
-    seen[key] = seen[key] || 0;
-    const off = (seen[key] - (grp[key]-1)/2) * 12;
+    const key = u + '-' + v;
+    seen[key] = (seen[key] || 0);
+    const off = (seen[key] - (grouped[key] - 1) / 2) * 12;
     seen[key]++;
-    let dx = p2.x-p1.x, dy = p2.y-p1.y;
-    const len = Math.hypot(dx,dy);
-    if (!len) continue;
-    const ux = dx/len, uy = dy/len, px = -uy, py = ux;
-    const sx = p1.x + ux*nodeR + px*off, sy = p1.y + uy*nodeR + py*off;
-    const ex = p2.x - ux*nodeR + px*off, ey = p2.y - uy*nodeR + py*off;
-    const col = colors[idx % colors.length];
-    ctx.strokeStyle = col; ctx.fillStyle = col; ctx.lineWidth = 1.8;
-    const hasRev = edges.some(([a,b]) => a===v && b===u);
+
+    let dx = p2.x - p1.x, dy = p2.y - p1.y;
+    const len = Math.hypot(dx, dy);
+    if (len === 0) continue;
+    const ux = dx / len, uy = dy / len;
+    const px = -uy, py = ux;
+
+    const startX = p1.x + ux * nodeR + px * off;
+    const startY = p1.y + uy * nodeR + py * off;
+    const endX   = p2.x - ux * nodeR + px * off;
+    const endY   = p2.y - uy * nodeR + py * off;
+
+    const color = edgeColors[idx % edgeColors.length];
+    ctx.strokeStyle = color;
+    ctx.fillStyle = color;
+    ctx.lineWidth = 1.8;
+
+    const hasReverse = edges.some(([a,b]) => a === v && b === u);
     if (u === v){
       ctx.beginPath();
-      ctx.arc(p1.x, p1.y-nodeR-15, 15, 0, Math.PI*2);
+      ctx.arc(p1.x, p1.y - nodeR - 15, 15, 0, Math.PI * 2);
       ctx.stroke();
-      arrow(ctx, p1.x+10, p1.y-nodeR-5, Math.PI/4, col);
-    } else if (hasRev){
-      const mx = (sx+ex)/2 + px*22, my = (sy+ey)/2 + py*22;
-      ctx.beginPath(); ctx.moveTo(sx,sy);
-      ctx.quadraticCurveTo(mx,my,ex,ey); ctx.stroke();
-      arrow(ctx, ex, ey, Math.atan2(ey-my, ex-mx), col);
+      drawArrowHead(ctx, p1.x + 10, p1.y - nodeR - 5, Math.PI / 4, color);
+    } else if (hasReverse){
+      const midX = (startX + endX) / 2 + px * 22;
+      const midY = (startY + endY) / 2 + py * 22;
+      ctx.beginPath();
+      ctx.moveTo(startX, startY);
+      ctx.quadraticCurveTo(midX, midY, endX, endY);
+      ctx.stroke();
+      const tangX = endX - midX, tangY = endY - midY;
+      drawArrowHead(ctx, endX, endY, Math.atan2(tangY, tangX), color);
     } else {
-      ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(ex,ey); ctx.stroke();
-      arrow(ctx, ex, ey, Math.atan2(ey-sy, ex-sx), col);
+      ctx.beginPath();
+      ctx.moveTo(startX, startY);
+      ctx.lineTo(endX, endY);
+      ctx.stroke();
+      drawArrowHead(ctx, endX, endY, Math.atan2(endY - startY, endX - startX), color);
     }
   }
+
   for (let i = 1; i <= n; i++){
     const p = pos[i];
     ctx.beginPath();
-    ctx.arc(p.x, p.y, nodeR, 0, Math.PI*2);
-    ctx.fillStyle = (i===1) ? '#ffd7d0' : '#ddf4ff';
+    ctx.arc(p.x, p.y, nodeR, 0, Math.PI * 2);
+    ctx.fillStyle = (i === 1) ? '#ffd7d0' : '#ddf4ff';
     ctx.fill();
-    ctx.strokeStyle = (i===1) ? '#cf222e' : '#0969da';
-    ctx.lineWidth = 2.5; ctx.stroke();
-    ctx.fillStyle = (i===1) ? '#cf222e' : '#0a3069';
+    ctx.strokeStyle = (i === 1) ? '#cf222e' : '#0969da';
+    ctx.lineWidth = 2.5;
+    ctx.stroke();
+
+    ctx.fillStyle = (i === 1) ? '#cf222e' : '#0a3069';
     ctx.font = 'bold 16px sans-serif';
-    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillText(String(i), p.x, p.y-4);
-    ctx.fillStyle = '#656d76'; ctx.font = '11px sans-serif';
-    ctx.fillText('c='+c[i], p.x, p.y+12);
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(String(i), p.x, p.y - 4);
+
+    ctx.fillStyle = '#656d76';
+    ctx.font = '11px sans-serif';
+    ctx.fillText('c=' + c[i], p.x, p.y + 12);
   }
 }
 
-function arrow(ctx, x, y, ang, col){
-  const s = 10;
+function drawArrowHead(ctx, x, y, angle, color){
+  const size = 10;
   ctx.beginPath();
-  ctx.moveTo(x,y);
-  ctx.lineTo(x - s*Math.cos(ang - Math.PI/7), y - s*Math.sin(ang - Math.PI/7));
-  ctx.lineTo(x - s*Math.cos(ang + Math.PI/7), y - s*Math.sin(ang + Math.PI/7));
+  ctx.moveTo(x, y);
+  ctx.lineTo(
+    x - size * Math.cos(angle - Math.PI / 7),
+    y - size * Math.sin(angle - Math.PI / 7)
+  );
+  ctx.lineTo(
+    x - size * Math.cos(angle + Math.PI / 7),
+    y - size * Math.sin(angle + Math.PI / 7)
+  );
   ctx.closePath();
-  ctx.fillStyle = col; ctx.fill();
+  ctx.fillStyle = color;
+  ctx.fill();
 }
 
-runTrip01();
+// Chạy lần đầu
+runDemo();
 </script>
 
 </body>
@@ -465,10 +525,7 @@ runTrip01();
   body { margin: 0; background: #fff; color: #1f2328;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     line-height: 1.75; }
-  .wrap { max-width: 880px; margin: 0 auto; padding: 24px 24px 80px; }
-  .back { display: inline-block; color: #0969da; text-decoration: none;
-    font-size: 14px; margin-bottom: 16px; }
-  .back:hover { text-decoration: underline; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 32px 24px 80px; }
   h1 { font-size: 28px; margin: 0 0 8px; color: #0a3069; }
   .sub { color: #656d76; font-size: 15px; margin-bottom: 24px; }
   h2 { font-size: 22px; margin-top: 40px; padding-top: 16px;
@@ -519,24 +576,22 @@ runTrip01();
 <body>
 <div class="wrap">
 
-<a class="back" href="index.html">← Về trang chủ</a>
-
-<h1>TRIP02 — Hành trình có sự kiện đặc biệt</h1>
-<div class="sub">Cung có trọng số thời gian w, k sự kiện (t, x, y)</div>
+<h1>TRIP02 — Lời giải</h1>
+<div class="sub">Hành trình có sự kiện đặc biệt · Cung có trọng số thời gian w</div>
 
 <div>
+  <span class="tag">Đồ thị có hướng</span>
   <span class="tag">Ma trận 5n</span>
-  <span class="tag">Sự kiện</span>
-  <span class="tag">Max-plus</span>
+  <span class="tag">Sự kiện đặc biệt</span>
   <span class="tag">O((5n)³ log T)</span>
 </div>
 
 <h2>1. Đề bài</h2>
 <p>Cho đồ thị có hướng <code>N</code> đỉnh, <code>M</code> cung. Mỗi đỉnh <code>i</code> có trọng số
-phần thưởng <code>c[i]</code>. Mỗi cung <code>u → v</code> tốn <code>w[i]</code> đơn vị thời gian (1 ≤ w ≤ 5).
-Xuất phát tại đỉnh 1 lúc t=0, quay về đỉnh 1 đúng lúc T.</p>
-<p>Có <code>k</code> sự kiện đặc biệt <code>(t, x, y)</code>: nếu ở đỉnh <code>x</code> đúng lúc <code>t</code>
-thì cộng thêm <code>y</code>. Nếu đang đi trên đường thì không nhận.</p>
+phần thưởng <code>c[i]</code>. Mỗi cung <code>u → v</code> tốn <code>w[i]</code> đơn vị thời gian
+(1 ≤ w ≤ 5). Xuất phát tại đỉnh 1 lúc t=0, quay về đỉnh 1 đúng lúc T.</p>
+<p>Có <code>k</code> sự kiện đặc biệt <code>(t, x, y)</code>: nếu ở đỉnh <code>x</code> đúng lúc
+<code>t</code> thì cộng thêm <code>y</code>. Nếu đang đi trên đường thì không nhận.</p>
 <p>Tìm tổng phần thưởng lớn nhất, hoặc <code>-1</code>.</p>
 
 <table>
@@ -728,24 +783,24 @@ tt e[<span class="num">205</span>];
   <div class="io">
     <div>
       <label style="font-size:13px; color:#656d76">Input</label>
-      <textarea id="inp2">3 4 11 0
+      <textarea id="inp">3 4 11 0
 1 3 4
 1 2 1
 2 1 3
 2 3 2
 3 1 4</textarea>
-      <button onclick="runTrip02()">▶ Chạy</button>
+      <button onclick="runDemo()">▶ Chạy</button>
     </div>
     <div>
       <label style="font-size:13px; color:#656d76">Output</label>
-      <div class="out" id="out2">—</div>
+      <div class="out" id="out">—</div>
     </div>
   </div>
 </div>
 
 <div class="demo">
   <h3 style="margin-top:0">📊 Đồ thị (có trọng số thời gian)</h3>
-  <canvas id="graph2" width="820" height="420"
+  <canvas id="graph" width="820" height="420"
     style="width:100%; background:#fff; border:1px solid #d0d7de; border-radius:6px;"></canvas>
   <div style="margin-top:10px; font-size:13px; color:#656d76">
     🔴 Đỉnh 1 (xuất phát) · 🔵 Đỉnh khác · Số trên cung = trọng số w · ★ = sự kiện
@@ -753,20 +808,28 @@ tt e[<span class="num">205</span>];
 </div>
 
 <div class="demo">
-  <h3 style="margin-top:0">🧪 Test từ đề gốc</h3>
+  <h3 style="margin-top:0">🧪 Test mẫu</h3>
   <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px">
-    <button onclick="loadTest2(0)" style="background:#0969da">Ví dụ 1</button>
-    <button onclick="loadTest2(1)" style="background:#0969da">Ví dụ 2</button>
+    <button onclick="loadTest(0)" style="background:#0969da">Ví dụ 1</button>
+    <button onclick="loadTest(1)" style="background:#0969da">Ví dụ 2</button>
   </div>
-  <div id="explain2" style="background:#fff; border:1px solid #d0d7de; border-radius:6px; padding:12px 16px; font-size:14px;"></div>
+  <div id="explain" style="background:#fff; border:1px solid #d0d7de; border-radius:6px; padding:12px 16px; font-size:14px; line-height:1.7;"></div>
 </div>
+
+<h2>5. Độ phức tạp</h2>
+<table>
+<tr><th>Bước</th><th>Phức tạp</th></tr>
+<tr><td>Tiền xử lý M^(2^i)</td><td>O((5n)³ log T)</td></tr>
+<tr><td>Mỗi khoảng thời gian</td><td>O((5n)² log T)</td></tr>
+<tr><td>Tổng</td><td>O((5n)³ log T)</td></tr>
+</table>
 
 </div>
 
 <footer>TRIP02 · congthanhvip.github.io · 2026-10-10</footer>
 
 <script>
-const TESTS2 = [
+const TESTS = [
   {
     name: "Ví dụ 1",
     input: "3 4 11 0\n1 3 4\n1 2 1\n2 1 3\n2 3 2\n3 1 4",
@@ -802,18 +865,18 @@ const TESTS2 = [
   }
 ];
 
-function loadTest2(i){
-  const t = TESTS2[i];
-  document.getElementById('inp2').value = t.input;
-  document.getElementById('explain2').innerHTML =
+function loadTest(i){
+  const t = TESTS[i];
+  document.getElementById('inp').value = t.input;
+  document.getElementById('explain').innerHTML =
     '<strong>📖 ' + t.name + '</strong><br><br>' + t.explain;
-  runTrip02();
+  runDemo();
 }
 
-function runTrip02(){
-  const raw = document.getElementById('inp2').value.trim();
+function runDemo(){
+  const raw = document.getElementById('inp').value.trim();
   const lines = raw.split(/\n+/).map(l => l.trim()).filter(Boolean);
-  const out = document.getElementById('out2');
+  const out = document.getElementById('out');
   try {
     const p0 = lines[0].split(/\s+/).map(Number);
     const n = p0[0], m = p0[1], T0 = p0[2], k = p0[3];
@@ -913,78 +976,118 @@ function runTrip02(){
     go(T0 - cur);
 
     out.textContent = dp[0] === NEG ? "-1" : String(dp[0]);
-    drawGraph2(n, c, edges, events);
+    drawGraph(n, c, edges, events);
   } catch(e){
     out.textContent = "Lỗi input: " + e.message;
   }
 }
 
-function drawGraph2(n, c, edges, events){
-  const cv = document.getElementById('graph2');
-  const ctx = cv.getContext('2d');
-  const W = cv.width, H = cv.height;
+function drawGraph(n, c, edges, events){
+  const canvas = document.getElementById('graph');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
   ctx.clearRect(0, 0, W, H);
-  const cx = W/2, cy = H/2, R = Math.min(W,H)/2 - 90;
-    const pos = {};
+
+  const cx = W / 2, cy = H / 2;
+  const R = Math.min(W, H) / 2 - 90;
+  const pos = {};
   for (let i = 0; i < n; i++){
-    const ang = -Math.PI/2 + i*2*Math.PI/n;
-    pos[i] = { x: cx + R*Math.cos(ang), y: cy + R*Math.sin(ang) };
+    const ang = -Math.PI / 2 + i * 2 * Math.PI / n;
+    pos[i] = { x: cx + R * Math.cos(ang), y: cy + R * Math.sin(ang) };
   }
+
   const nodeR = 28;
-  const grp = {}, seen = {};
-  for (const [u,v] of edges){ const k = u+'-'+v; grp[k] = (grp[k]||0)+1; }
-  const colors = ['#0969da','#1a7f37','#8250df','#bf3989','#9a6700','#cf222e'];
+  const grouped = {};
+  for (const [u, v] of edges){
+    const key = u + '-' + v;
+    grouped[key] = (grouped[key] || 0) + 1;
+  }
+  const seen = {};
+  const edgeColors = ['#0969da','#1a7f37','#8250df','#bf3989','#9a6700','#cf222e'];
 
   for (let idx = 0; idx < edges.length; idx++){
     const [u, v, w] = edges[idx];
     const p1 = pos[u], p2 = pos[v];
-    const key = u+'-'+v;
-    seen[key] = seen[key] || 0;
-    const off = (seen[key] - (grp[key]-1)/2) * 14;
+    const key = u + '-' + v;
+    seen[key] = (seen[key] || 0);
+    const off = (seen[key] - (grouped[key] - 1) / 2) * 14;
     seen[key]++;
-    let dx = p2.x-p1.x, dy = p2.y-p1.y;
-    const len = Math.hypot(dx,dy);
-    if (!len) continue;
-    const ux = dx/len, uy = dy/len, px = -uy, py = ux;
-    const sx = p1.x + ux*nodeR + px*off, sy = p1.y + uy*nodeR + py*off;
-    const ex = p2.x - ux*nodeR + px*off, ey = p2.y - uy*nodeR + py*off;
-    const col = colors[idx % colors.length];
-    ctx.strokeStyle = col; ctx.fillStyle = col; ctx.lineWidth = 1.8;
-    const hasRev = edges.some(([a,b]) => a===v && b===u);
+
+    let dx = p2.x - p1.x, dy = p2.y - p1.y;
+    const len = Math.hypot(dx, dy);
+    if (len === 0) continue;
+    const ux = dx / len, uy = dy / len;
+    const px = -uy, py = ux;
+
+    const startX = p1.x + ux * nodeR + px * off;
+    const startY = p1.y + uy * nodeR + py * off;
+    const endX   = p2.x - ux * nodeR + px * off;
+    const endY   = p2.y - uy * nodeR + py * off;
+
+    const color = edgeColors[idx % edgeColors.length];
+    ctx.strokeStyle = color;
+    ctx.fillStyle = color;
+    ctx.lineWidth = 1.8;
+
+    const hasReverse = edges.some(([a,b]) => a === v && b === u);
     if (u === v){
-      ctx.beginPath(); ctx.arc(p1.x, p1.y-nodeR-15, 15, 0, Math.PI*2); ctx.stroke();
-      arrow(ctx, p1.x+10, p1.y-nodeR-5, Math.PI/4, col);
-    } else if (hasRev){
-      const mx = (sx+ex)/2 + px*22, my = (sy+ey)/2 + py*22;
-      ctx.beginPath(); ctx.moveTo(sx,sy);
-      ctx.quadraticCurveTo(mx,my,ex,ey); ctx.stroke();
-      arrow(ctx, ex, ey, Math.atan2(ey-my, ex-mx), col);
+      ctx.beginPath();
+      ctx.arc(p1.x, p1.y - nodeR - 15, 15, 0, Math.PI * 2);
+      ctx.stroke();
+      drawArrowHead(ctx, p1.x + 10, p1.y - nodeR - 5, Math.PI / 4, color);
+    } else if (hasReverse){
+      const midX = (startX + endX) / 2 + px * 22;
+      const midY = (startY + endY) / 2 + py * 22;
+      ctx.beginPath();
+      ctx.moveTo(startX, startY);
+      ctx.quadraticCurveTo(midX, midY, endX, endY);
+      ctx.stroke();
+      const tangX = endX - midX, tangY = endY - midY;
+      drawArrowHead(ctx, endX, endY, Math.atan2(tangY, tangX), color);
     } else {
-      ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(ex,ey); ctx.stroke();
-      arrow(ctx, ex, ey, Math.atan2(ey-sy, ex-sx), col);
+      ctx.beginPath();
+      ctx.moveTo(startX, startY);
+      ctx.lineTo(endX, endY);
+      ctx.stroke();
+      drawArrowHead(ctx, endX, endY, Math.atan2(endY - startY, endX - startX), color);
     }
+
     // Nhãn trọng số w ở giữa cung
-    const mx = (sx+ex)/2, my = (sy+ey)/2;
+    const mx = (startX + endX) / 2;
+    const my = (startY + endY) / 2;
     ctx.fillStyle = '#fff';
-    ctx.beginPath(); ctx.arc(mx, my, 10, 0, Math.PI*2); ctx.fill();
-    ctx.strokeStyle = col; ctx.lineWidth = 1; ctx.stroke();
-    ctx.fillStyle = col; ctx.font = 'bold 12px sans-serif';
-    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.beginPath();
+    ctx.arc(mx, my, 11, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.fillStyle = color;
+    ctx.font = 'bold 12px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
     ctx.fillText(String(w), mx, my);
   }
 
   for (let i = 0; i < n; i++){
     const p = pos[i];
-    ctx.beginPath(); ctx.arc(p.x, p.y, nodeR, 0, Math.PI*2);
-    ctx.fillStyle = (i===0) ? '#ffd7d0' : '#ddf4ff'; ctx.fill();
-    ctx.strokeStyle = (i===0) ? '#cf222e' : '#0969da';
-    ctx.lineWidth = 2.5; ctx.stroke();
-    ctx.fillStyle = (i===0) ? '#cf222e' : '#0a3069';
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, nodeR, 0, Math.PI * 2);
+    ctx.fillStyle = (i === 0) ? '#ffd7d0' : '#ddf4ff';
+    ctx.fill();
+    ctx.strokeStyle = (i === 0) ? '#cf222e' : '#0969da';
+    ctx.lineWidth = 2.5;
+    ctx.stroke();
+
+    ctx.fillStyle = (i === 0) ? '#cf222e' : '#0a3069';
     ctx.font = 'bold 16px sans-serif';
-    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillText(String(i+1), p.x, p.y-4);
-    ctx.fillStyle = '#656d76'; ctx.font = '11px sans-serif';
-    ctx.fillText('c='+c[i], p.x, p.y+12);
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(String(i + 1), p.x, p.y - 4);
+
+    ctx.fillStyle = '#656d76';
+    ctx.font = '11px sans-serif';
+    ctx.fillText('c=' + c[i], p.x, p.y + 12);
 
     // Hiện sự kiện tại đỉnh
     const evs = events.filter(ev => ev.x === i);
@@ -992,23 +1095,31 @@ function drawGraph2(n, c, edges, events){
       ctx.fillStyle = '#8250df';
       ctx.font = '11px sans-serif';
       evs.forEach((ev, idx) => {
-        ctx.fillText('★ t='+ev.t+' +'+ev.y, p.x, p.y - nodeR - 22 - idx*13);
+        ctx.fillText('★ t=' + ev.t + ' +' + ev.y, p.x, p.y - nodeR - 22 - idx * 13);
       });
     }
   }
 }
 
-function arrow(ctx, x, y, ang, col){
-  const s = 10;
+function drawArrowHead(ctx, x, y, angle, color){
+  const size = 10;
   ctx.beginPath();
-  ctx.moveTo(x,y);
-  ctx.lineTo(x - s*Math.cos(ang - Math.PI/7), y - s*Math.sin(ang - Math.PI/7));
-  ctx.lineTo(x - s*Math.cos(ang + Math.PI/7), y - s*Math.sin(ang + Math.PI/7));
+  ctx.moveTo(x, y);
+  ctx.lineTo(
+    x - size * Math.cos(angle - Math.PI / 7),
+    y - size * Math.sin(angle - Math.PI / 7)
+  );
+  ctx.lineTo(
+    x - size * Math.cos(angle + Math.PI / 7),
+    y - size * Math.sin(angle + Math.PI / 7)
+  );
   ctx.closePath();
-  ctx.fillStyle = col; ctx.fill();
+  ctx.fillStyle = color;
+  ctx.fill();
 }
 
-runTrip02();
+// Chạy lần đầu
+runDemo();
 </script>
 
 </body>
