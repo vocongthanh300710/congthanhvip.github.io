@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TRIP01 — Phân tích đầy đủ</title>
+<title>TRIP01 — Lời giải</title>
 <style>
   * { box-sizing: border-box; }
   body {
@@ -11,14 +11,14 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     line-height: 1.75;
   }
-  .wrap { max-width: 900px; margin: 0 auto; padding: 32px 24px 80px; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 32px 24px 80px; }
   h1 { font-size: 28px; margin: 0 0 8px; color: #0a3069; }
   .sub { color: #656d76; font-size: 15px; margin-bottom: 24px; }
   h2 {
-    font-size: 22px; margin-top: 44px; padding-top: 16px;
+    font-size: 22px; margin-top: 40px; padding-top: 16px;
     border-top: 1px solid #d0d7de; color: #0969da;
   }
-  h3 { font-size: 17px; margin-top: 28px; color: #1f2328; }
+  h3 { font-size: 17px; margin-top: 24px; color: #1f2328; }
   p { color: #1f2328; }
   ul, ol { color: #1f2328; padding-left: 24px; }
   li { margin: 4px 0; }
@@ -35,7 +35,6 @@
   }
   pre code { background: none; padding: 0; color: #1f2328; font-size: 13.5px; }
   .kw  { color: #cf222e; font-weight: 600; }
-  .typ { color: #953800; font-weight: 600; }
   .num { color: #0550ae; }
   .str { color: #0a3069; }
   .fn  { color: #8250df; }
@@ -46,9 +45,8 @@
     padding: 14px 18px; margin: 18px 0;
   }
   .box.accent { border-left: 4px solid #fd8c73; background: #fff8f5; }
-  .box.info { border-left: 4px solid #54aeff; background: #f0f8ff; }
-  .box.warn { border-left: 4px solid #d4a72c; background: #fff8e5; }
   .box.quote { border-left: 4px solid #8250df; background: #faf5ff; }
+  .box.info { border-left: 4px solid #54aeff; background: #f0f8ff; }
   table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
   th, td { border: 1px solid #d0d7de; padding: 8px 10px; text-align: left; vertical-align: top; }
   th { background: #f6f8fa; color: #0a3069; }
@@ -78,19 +76,15 @@
     padding: 2px 10px; border-radius: 12px; font-size: 12px;
     margin-right: 6px; margin-bottom: 6px;
   }
-  .step {
-    display: inline-block; background: #0969da; color: #fff;
-    padding: 2px 10px; border-radius: 12px; font-size: 12px; margin-right: 8px;
-  }
   footer { color: #656d76; font-size: 13px; text-align: center; padding: 32px 0; }
 </style>
 </head>
 <body>
 <div class="wrap">
 
-<h1>TRIP01 — Phân tích đầy đủ</h1>
+<h1>TRIP01 — Lời giải</h1>
 <div class="sub">
-  Từ ý tưởng của thầy (vector V · M<sup>T</sup>) đến code C++ hoàn chỉnh — kèm chứng minh và demo.
+  Hành trình quay về đỉnh 1 đúng T bước · Tổng phần thưởng lớn nhất
 </div>
 
 <div>
@@ -100,80 +94,125 @@
   <span class="tag">O(N³ log T)</span>
 </div>
 
-<h2>1. Ý tưởng cốt lõi (theo cách giải thích của thầy)</h2>
+<h2>1. Đề bài</h2>
+<p>
+Cho đồ thị có hướng <code>N</code> đỉnh, <code>M</code> cung. Mỗi đỉnh <code>i</code> có
+trọng số phần thưởng <code>c[i]</code>. Mỗi cung đi tốn 1 đơn vị thời gian.
+</p>
+<p>
+Xuất phát tại đỉnh <strong>1</strong> lúc <code>t = 0</code>, di chuyển liên tục,
+phải quay về đỉnh <strong>1</strong> đúng tại thời điểm <code>T</code>. Mỗi lần ghé
+một đỉnh (kể cả lúc đầu và cuối) cộng thêm <code>c[i]</code>.
+Hỏi tổng phần thưởng lớn nhất. Không có hành trình hợp lệ → in <code>-1</code>.
+</p>
+
+<table>
+<tr><th>Ràng buộc</th><th>Giá trị</th></tr>
+<tr><td>N</td><td>≤ 250</td></tr>
+<tr><td>M</td><td>≤ 1000</td></tr>
+<tr><td>T</td><td>≤ 10⁹</td></tr>
+<tr><td>c[i]</td><td>1 … 10⁴</td></tr>
+</table>
+
+<h2>2. Ý tưởng (theo lời giải thích của thầy)</h2>
 
 <div class="box quote">
 <strong>💬 Trích lời thầy:</strong><br>
-"Ta tận dụng việc không tồn tại ràng buộc về số lần ghé thăm mỗi đỉnh để xây dựng hẳn một ma trận biến đổi cố định: <br>
-<code>M[u, v]</code> = điểm thưởng lớn nhất để đi từ u đến v qua đúng 1 cạnh. <br>
-Suy ra: <code>M²[u, v]</code> = điểm lớn nhất qua đúng 2 cạnh, …, <code>M<sup>k</sup>[u, v]</code> = điểm lớn nhất qua đúng k cạnh. <br>
-Vậy để tính điểm lớn nhất để đi từ 1 đến tất cả các đỉnh sau đúng T cạnh, ta chỉ cần lấy <code>V * M<sup>T</sup></code>, với <code>V[1] = 0, V[u] = -∞ ∀u ≠ 1</code>."
+"Ta tận dụng việc không tồn tại ràng buộc về số lần ghé thăm mỗi đỉnh để xây dựng hẳn
+một ma trận biến đổi cố định:<br><br>
+<code>M[u, v]</code> = điểm thưởng lớn nhất để đi từ u đến v qua <strong>đúng 1 cạnh</strong>.<br>
+Suy ra:<br>
+<code>M²[u, v]</code> = điểm lớn nhất qua đúng 2 cạnh<br>
+…<br>
+<code>M<sup>k</sup>[u, v]</code> = điểm lớn nhất qua đúng k cạnh.<br><br>
+Vậy để tính điểm lớn nhất để đi từ 1 đến tất cả các đỉnh sau đúng T cạnh,
+ta chỉ cần lấy <code>V * M<sup>T</sup></code>,<br>
+với <code>V[1] = 0, V[u] = -∞ với mọi u khác 1</code>."
 </div>
 
-<p><strong>Tại sao cách nói này mạnh?</strong> Vì nó tổng quát hoá:</p>
-<ul>
-  <li>Không chỉ đỉnh 1 — mà tính được điểm đến <strong>mọi đỉnh</strong> sau T bước.</li>
-  <li>Vector khởi tạo <code>V</code> chỉ có đỉnh 1 = 0 → đúng nghĩa "xuất phát từ 1".</li>
-  <li>Đáp án = <code>(V · M<sup>T</sup>)[1]</code> — tức là quay về đỉnh 1.</li>
-</ul>
+<h3>Ma trận biến đổi M</h3>
+<pre><code>M[u][v] = c[v]   nếu có cung u → v
+M[u][v] = -∞     nếu không có cung</code></pre>
+<p>Ý nghĩa: đang ở <code>u</code>, đi sang <code>v</code>, nhận thêm <code>c[v]</code>.</p>
 
-<h3>1.1. Ma trận biến đổi M</h3>
-<p>Với mỗi cung <code>u → v</code> có thật trong đồ thị:</p>
-<pre><code>M[u][v] = c[v]        <span class="cmt">// điểm thưởng khi bước tới v</span>
-M[u][v] = -∞          <span class="cmt">// nếu không có cung u → v</span></code></pre>
-
-<h3>1.2. Phép nhân (max, +)</h3>
-<pre><code>(X ⊗ Y)[i][j] = <span class="fn">max</span><sub>k</sub> ( X[i][k] + Y[k][j] )</code></pre>
+<h3>Phép nhân (max, +)</h3>
+<pre><code>(X ⊗ Y)[i][j] = max_k ( X[i][k] + Y[k][j] )</code></pre>
 <p>
-Phép này <strong>kết hợp</strong> (associative), nên có thể tính <code>M<sup>T</sup></code>
-bằng luỹ thừa nhanh: <code>O(N³ log T)</code>.
+Phép này <strong>kết hợp</strong>, nên có thể tính <code>M<sup>T</sup></code>
+bằng luỹ thừa nhanh trong <code>O(N³ log T)</code>.
 </p>
 
-<h3>1.3. Vì sao M<sup>k</sup>[u][v] = điểm lớn nhất đi u→v qua đúng k cạnh?</h3>
-<p><strong>Chứng minh bằng quy nạp:</strong></p>
-<ul>
-  <li><strong>k = 1:</strong> đúng theo định nghĩa M.</li>
-  <li><strong>Giả sử đúng với k:</strong> đường đi u → v qua k+1 cạnh = (đường u → w qua k cạnh) + (cung w → v). Theo giả thiết quy nạp, giá trị tốt nhất là <code>max_w (M<sup>k</sup>[u][w] + M[w][v])</code>. Đây chính là <code>M<sup>k+1</sup>[u][v]</code>. ∎</li>
-</ul>
-
-<h3>1.4. Đáp án theo công thức vector</h3>
+<h3>Đáp án</h3>
 <pre><code>ans = (V · M<sup>T</sup>)[1]
 với V[1] = 0, V[u] = -∞ ∀ u ≠ 1</code></pre>
 
 <div class="box accent">
-<strong>Điểm mấu chốt về c[1]:</strong> Trong công thức <code>M[u][v] = c[v]</code>, phần thưởng tại
-đỉnh xuất phát (t=0) không bao giờ được cộng vào (vì M chỉ cộng <code>c[v]</code> khi tới v).
-Vậy phải cộng thêm <code>c[1]</code> một lần nữa ở cuối.
+<strong>Lưu ý về c[1]:</strong> Vì <code>M[u][v] = c[v]</code> chỉ cộng phần thưởng khi <em>tới</em> v,
+còn phần thưởng tại điểm xuất phát <code>c[1]</code> (t = 0) chưa được cộng.
+Vậy phải cộng thêm <code>c[1]</code> ở cuối.
 </div>
 
-<h2>2. Cài đặt C++ (theo code của bạn)</h2>
+<h3>Kiểm chứng ví dụ 1</h3>
+<p>N=3, M=4, T=6, c = [5, 2, 8], cung: 1→2, 2→1, 2→3, 3→1.</p>
+<p>Chu trình 1→2→3→1 dài 3 bước, điểm mỗi vòng = 2 + 8 + 5 = 15.</p>
+<p>T = 6 = 2 vòng → <code>M⁶[1][1] = 30</code>. Cộng <code>c[1] = 5</code> → <strong>35</strong>. ✓</p>
 
-<h3>2.1. Khai báo &amp; hằng số</h3>
+<h2>3. Vì sao dùng nhân ma trận?</h2>
+
+<h3>3.1. Bước đi = một phép biến đổi</h3>
+<p>
+Nhìn lại <code>M[u][v] = c[v]</code>: khi ở <code>u</code> bước sang <code>v</code>,
+phần thưởng cộng thêm đúng bằng <code>M[u][v]</code>. Vậy <strong>một bước đi = một lần
+áp dụng ma trận M</strong>.
+</p>
+
+<h3>3.2. Hai bước liên tiếp = M²</h3>
+<p>Đi từ <code>u</code> sang <code>v</code> qua 2 cạnh phải qua đỉnh trung gian <code>k</code>:</p>
+<pre><code>u → k → v</code></pre>
+<p>Điểm = <code>M[u][k] + M[k][v]</code>. Muốn tối ưu, thử mọi <code>k</code>:</p>
+<pre><code>M²[u][v] = max_k ( M[u][k] + M[k][v] )</code></pre>
+<p>Đây <strong>chính xác</strong> là công thức nhân ma trận (max, +):</p>
+<pre><code>(X ⊗ Y)[i][j] = max_k ( X[i][k] + Y[k][j] )</code></pre>
+
+<h3>3.3. Quy nạp: k bước = Mᵏ</h3>
+<pre><code>M<sup>k</sup>[u][v] = điểm lớn nhất đi từ u đến v qua đúng k cạnh</code></pre>
+<p>Chứng minh quy nạp: đường đi k+1 cạnh = (đường u→w qua k cạnh) + (cung w→v).</p>
+<pre><code>max_w ( M<sup>k</sup>[u][w] + M[w][v] ) = M<sup>k+1</sup>[u][v]</code></pre>
+
+<h3>3.4. Vì sao cần luỹ thừa nhanh?</h3>
+<p><code>T</code> tới <code>10⁹</code>. Nếu nhân tuần tự:</p>
+<pre><code>T × O(N³) ≈ 10⁹ × 250³ → quá lớn, không chạy nổi</code></pre>
+<p>Nhưng nhân ma trận <strong>kết hợp</strong> → dùng luỹ thừa nhị phân:</p>
+<pre><code>M<sup>T</sup> = M<sup>b₀</sup> ⊗ M<sup>2b₁</sup> ⊗ M<sup>4b₂</sup> ⊗ …</code></pre>
+<p>Chỉ tốn <code>O(log T)</code> phép nhân → <code>O(N³ log T)</code> ≈ <code>4.7 × 10⁸</code> phép.</p>
+
+<div class="box accent">
+<strong>4 lý do dùng nhân ma trận:</strong>
+<ol>
+<li><strong>T quá lớn</strong> để mô phỏng từng bước.</li>
+<li><strong>Một bước đi</strong> biểu diễn thành phép áp dụng ma trận <code>M</code>.</li>
+<li><strong>k bước liên tiếp</strong> = <code>M<sup>k</sup></code>, nhờ nhân (max, +).</li>
+<li><strong>Tính kết hợp</strong> cho phép luỹ thừa nhanh → T = 10⁹ chỉ trong O(log T) phép nhân.</li>
+</ol>
+</div>
+
+<h3>3.5. So sánh các cách tiếp cận</h3>
+<table>
+<tr><th>Cách</th><th>Phức tạp</th><th>Với T = 10⁹</th></tr>
+<tr><td>DP từng bước</td><td>O(T · M)</td><td>Quá chậm</td></tr>
+<tr><td>Dijkstra / Bellman-Ford</td><td>Không áp dụng được</td><td>Cần <em>đúng T bước</em>, không phải đường ngắn nhất</td></tr>
+<tr><td><strong>Ma trận (max, +) + luỹ thừa nhanh</strong></td><td>O(N³ log T)</td><td>Chạy tốt</td></tr>
+</table>
+
+<h2>4. Code C++</h2>
 <pre><code><span class="pp">#include</span><span class="str">&lt;bits/stdc++.h&gt;</span>
 <span class="pp">#define</span> ll <span class="kw">long long</span>
 <span class="kw">using namespace</span> std;
 <span class="kw">const int</span> N = <span class="num">252</span>;
 <span class="kw">const</span> ll INF = <span class="num">1e18</span>;
-
 <span class="kw">int</span> n, m;
-ll t, c[N], a[N][N], b[N][N], d[N][N];</code></pre>
-
-<table>
-<tr><th>Biến</th><th>Vai trò</th></tr>
-<tr><td><code>n, m, t</code></td><td>Số đỉnh, số cung, thời gian T</td></tr>
-<tr><td><code>c[i]</code></td><td>Trọng số phần thưởng đỉnh i</td></tr>
-<tr><td><code>a[u][v]</code></td><td>Ma trận chuyển (chính là M trong lý thuyết)</td></tr>
-<tr><td><code>b[i][j]</code></td><td>Ma trận tích luỹ (ban đầu = ma trận đơn vị (max, +))</td></tr>
-<tr><td><code>d[i][j]</code></td><td>Ma trận tạm, tránh ghi đè khi nhân</td></tr>
-</table>
-
-<div class="box warn">
-⚠️ <strong>INF = 1e18</strong> chứ không phải <code>LLONG_MIN</code>: vì <code>-INF + c[v]</code>
-sẽ không tràn số. Nếu dùng <code>LLONG_MIN</code>, phép cộng sẽ overflow ra giá trị rác.
-</div>
-
-<h3>2.2. Hàm <code>mul</code> — nhân ma trận (max, +)</h3>
-<pre><code><span class="kw">void</span> <span class="fn">mul</span>(ll x[N][N], ll y[N][N], ll z[N][N]){
+ll t, c[N], a[N][N], b[N][N], d[N][N];
+<span class="kw">void</span> <span class="fn">mul</span>(ll x[N][N], ll y[N][N], ll z[N][N]){
     <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= n; i++){
         <span class="kw">for</span>(<span class="kw">int</span> j = <span class="num">1</span>; j &lt;= n; j++){
             z[i][j] = -INF;
@@ -184,36 +223,8 @@ sẽ không tràn số. Nếu dùng <code>LLONG_MIN</code>, phép cộng sẽ ov
             }
         }
     }
-}</code></pre>
-<p><strong>Giải thích từng bước:</strong></p>
-<ol>
-<li><code>z[i][j] = -INF</code>: mặc định "chưa có đường đi từ i tới j".</li>
-<li>Duyệt mọi đỉnh trung gian k, thử ghép <code>i → k</code> và <code>k → j</code>.</li>
-<li>Điều kiện <code>!= -INF</code>: chỉ cộng khi cả hai vế đều có đường đi (tránh <code>-INF + số</code>).</li>
-<li><code>max(...)</code> giữ đường đi có tổng điểm cao nhất.</li>
-</ol>
-
-<div class="box info">
-<strong>So sánh 2 loại nhân ma trận:</strong>
-<table>
-<tr><th></th><th>Nhân thường</th><th>Nhân (max, +)</th></tr>
-<tr><td>Công thức</td><td><code>Σ x[i][k] · y[k][j]</code></td><td><code>max_k (x[i][k] + y[k][j])</code></td></tr>
-<tr><td>Phép "+" (cộng)</td><td>cộng số nguyên</td><td><code>max</code></td></tr>
-<tr><td>Phép "·" (nhân)</td><td>nhân số nguyên</td><td>cộng số nguyên</td></tr>
-<tr><td>Phần tử 0 (identity của +)</td><td>0</td><td>-∞</td></tr>
-<tr><td>Phần tử 1 (identity của ·)</td><td>1</td><td>0</td></tr>
-</table>
-</div>
-
-<p><strong>Còn tiếp ở tin 2/2 →</strong></p>
-
-</div>
-</body>
-</html>
-<h2>3. Các hàm chính</h2>
-
-<h3>3.1. Hàm <code>init()</code> — đọc input, dựng ma trận</h3>
-<pre><code><span class="kw">void</span> <span class="fn">init</span>(){
+}
+<span class="kw">void</span> <span class="fn">init</span>(){
     ios_base::<span class="fn">sync_with_stdio</span>(<span class="kw">false</span>);
     cin.<span class="fn">tie</span>(<span class="num">0</span>); cout.<span class="fn">tie</span>(<span class="num">0</span>);
     cin &gt;&gt; n &gt;&gt; m &gt;&gt; t;
@@ -225,24 +236,8 @@ sẽ không tràn số. Nếu dùng <code>LLONG_MIN</code>, phép cộng sẽ ov
         <span class="kw">int</span> u, v; cin &gt;&gt; u &gt;&gt; v;
         a[u][v] = <span class="fn">max</span>(a[u][v], c[v]);
     }
-}</code></pre>
-
-<table>
-<tr><th>Đoạn</th><th>Vai trò</th></tr>
-<tr><td><code>ios_base::sync_with_stdio(false)</code></td><td>Tắt đồng bộ C/C++ → đọc nhanh hơn nhiều.</td></tr>
-<tr><td><code>cin.tie(0); cout.tie(0);</code></td><td>Ngắt liên kết cin/cout → tăng tốc IO.</td></tr>
-<tr><td><code>cin &gt;&gt; n &gt;&gt; m &gt;&gt; t;</code></td><td>Đọc số đỉnh, số cung, thời gian.</td></tr>
-<tr><td>Vòng lặp đọc <code>c[i]</code></td><td>Đọc trọng số phần thưởng từng đỉnh.</td></tr>
-<tr><td>Khởi tạo <code>a[i][j] = -INF</code></td><td>Mặc định "không có cung" giữa mọi cặp đỉnh.</td></tr>
-<tr><td><code>a[u][v] = max(a[u][v], c[v])</code></td><td><strong>Quan trọng:</strong> vì đề cho phép nhiều cung giữa cùng cặp (u,v), dùng <code>max</code> để giữ cung tốt nhất.</td></tr>
-</table>
-
-<div class="box warn">
-⚠️ <strong>Điểm cần chú ý:</strong> Đề nói "Đồ thị có thể chứa nhiều cung cùng hướng giữa cùng một cặp đỉnh". Nếu chỉ gán <code>a[u][v] = c[v]</code>, cung sau ghi đè cung trước. Phải dùng <code>max(a[u][v], c[v])</code> — nhưng vì <code>c[v]</code> giống nhau, thực ra <code>max</code> ở đây chỉ mang tính an toàn, không ảnh hưởng kết quả.
-</div>
-
-<h3>3.2. Hàm <code>solve()</code> — luỹ thừa nhanh</h3>
-<pre><code><span class="kw">void</span> <span class="fn">solve</span>(){
+}
+<span class="kw">void</span> <span class="fn">solve</span>(){
     <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= n; i++){
         <span class="kw">for</span>(<span class="kw">int</span> j = <span class="num">1</span>; j &lt;= n; j++){
             b[i][j] = (i == j ? <span class="num">0</span> : -INF);
@@ -263,85 +258,17 @@ sẽ không tràn số. Nếu dùng <code>LLONG_MIN</code>, phép cộng sẽ ov
     }
     <span class="kw">if</span>(b[<span class="num">1</span>][<span class="num">1</span>] == -INF) cout &lt;&lt; <span class="num">-1</span>;
     <span class="kw">else</span> cout &lt;&lt; b[<span class="num">1</span>][<span class="num">1</span>] + c[<span class="num">1</span>];
-}</code></pre>
-
-<p><strong>Phân tích từng phần:</strong></p>
-
-<h4>① Khởi tạo ma trận đơn vị <code>b</code></h4>
-<pre><code>b[i][j] = (i == j ? <span class="num">0</span> : -INF);</code></pre>
-<p>
-Trong nửa vành (max, +), ma trận đơn vị có <code>b[i][i] = 0</code> (đường đi dài 0 bước từ i về i)
-và <code>b[i][j] = -∞</code> với i ≠ j.
-</p>
-
-<h4>② Luỹ thừa nhanh <code>a^t</code></h4>
-<p>Thuật toán giống luỹ thừa nhị phân thông thường, chỉ khác phép nhân là <code>mul (max, +)</code>:</p>
-<pre><code><span class="kw">while</span>(t &gt; <span class="num">0</span>){
-    <span class="kw">if</span>(t &amp; <span class="num">1</span>) b = b ⊗ a;   <span class="cmt">// nếu bit cuối = 1, nhân b với a</span>
-    a = a ⊗ a;              <span class="cmt">// bình phương a</span>
-    t &gt;&gt;= <span class="num">1</span>;               <span class="cmt">// dịch phải 1 bit</span>
-}</code></pre>
-
-<p><strong>Ví dụ minh hoạ với t = 6 (nhị phân 110):</strong></p>
-<table>
-<tr><th>Bước</th><th>t (nhị phân)</th><th>t &amp; 1</th><th>Hành động</th></tr>
-<tr><td>1</td><td>110</td><td>0</td><td>Không nhân; <code>a = a²</code>; <code>t = 011</code></td></tr>
-<tr><td>2</td><td>011</td><td>1</td><td><code>b = b · a²</code>; <code>a = a⁴</code>; <code>t = 001</code></td></tr>
-<tr><td>3</td><td>001</td><td>1</td><td><code>b = b · a² · a⁴ = a⁶</code>; <code>t = 0</code></td></tr>
-</table>
-<p>→ Kết quả: <code>b = a⁶</code>. Đúng như mong đợi.</p>
-
-<h4>③ Tại sao dùng ma trận tạm <code>d</code>?</h4>
-<p>Vì <code>mul</code> ghi đè lên ma trận thứ 3. Nếu gọi trực tiếp <code>mul(b, a, b)</code> thì <code>b</code> vừa là input vừa là output → sai. Vậy phải dùng <code>d</code> làm trung gian rồi copy lại.</p>
-
-<h4>④ Đọc đáp án</h4>
-<pre><code><span class="kw">if</span>(b[<span class="num">1</span>][<span class="num">1</span>] == -INF) cout &lt;&lt; <span class="num">-1</span>;
-<span class="kw">else</span> cout &lt;&lt; b[<span class="num">1</span>][<span class="num">1</span>] + c[<span class="num">1</span>];</code></pre>
-<ul>
-  <li><code>b[1][1] == -INF</code>: không có hành trình từ 1 về 1 sau đúng T bước → in <code>-1</code>.</li>
-  <li>Ngược lại: <code>b[1][1]</code> chính là tổng phần thưởng tích luỹ dọc đường, nhưng chưa tính <code>c[1]</code> lúc xuất phát (t=0). Cộng thêm <code>c[1]</code>.</li>
-</ul>
-
-<div class="box info">
-<strong>Kiểm chứng với Ví dụ 1:</strong> N=3, M=4, T=6, c = [5, 2, 8], cung 1→2, 2→1, 2→3, 3→1.<br>
-Chu trình 1→2→3→1 dài 3 bước, điểm mỗi vòng = 2 + 8 + 5 = 15.<br>
-T = 6 = 2 vòng → <code>b[1][1] = 30</code>. Cộng <code>c[1] = 5</code> → <strong>35</strong>. ✓
-</div>
-
-<h3>3.3. Hàm <code>main()</code></h3>
-<pre><code><span class="kw">int</span> <span class="fn">main</span>(){
+}
+<span class="kw">int</span> <span class="fn">main</span>(){
     <span class="fn">init</span>();
     <span class="fn">solve</span>();
 }</code></pre>
-<p>Chỉ gọi 2 hàm — sạch sẽ, dễ debug.</p>
 
-<h2>4. Liên hệ với cách giải thích của thầy</h2>
-
-<table>
-<tr><th>Cách của thầy</th><th>Cách code bạn</th></tr>
-<tr><td><code>V · M<sup>T</sup></code> với <code>V[1] = 0, V[u] = -∞</code></td><td>Chỉ lấy <code>b[1][1]</code> + <code>c[1]</code></td></tr>
-<tr><td>Tính được đáp án tới <strong>mọi đỉnh</strong></td><td>Chỉ tính đáp án về <strong>đỉnh 1</strong></td></tr>
-<tr><td>Tổng quát hơn, dễ mở rộng</td><td>Ngắn gọn hơn, ít bộ nhớ hơn</td></tr>
-</table>
-
-<p>
-Cả hai <strong>tương đương toán học</strong>:
-</p>
-<ul>
-<li><code>V[1] = 0</code> nghĩa là tại t=0, chỉ đỉnh 1 có giá trị 0 (mọi đỉnh khác không thể tới).</li>
-<li>Nhân <code>V · M<sup>T</sup></code> lấy phần tử [1] → chính là <code>M<sup>T</sup>[1][1]</code>.</li>
-<li>Sau đó cộng <code>c[1]</code> (vì M không cộng phần thưởng xuất phát).</li>
-</ul>
-
-<h2>5. Chạy thử trên trình duyệt</h2>
+<h2>5. Chạy thử</h2>
 <div class="demo">
-  <h3 style="margin-top:0">Mô phỏng bằng JavaScript (dùng được với T nhỏ)</h3>
-  <p style="color:#656d76; font-size:13px; margin-top:0">
-    Demo này dùng đúng thuật toán ma trận (max, +) như code C++. Với T lớn, JS có thể chạy chậm hơn — nhưng đủ để kiểm tra logic.
-  </p>
   <div class="io">
     <div>
-      <label style="font-size:13px; color:#656d76">Input (định dạng đề)</label>
+      <label style="font-size:13px; color:#656d76">Input</label>
       <textarea id="inp">3 4 6
 5 2 8
 1 2
@@ -351,32 +278,24 @@ Cả hai <strong>tương đương toán học</strong>:
       <button onclick="runDemo()">▶ Chạy</button>
     </div>
     <div>
-      <label style="font-size:13px; color:#656d76">Kết quả</label>
+      <label style="font-size:13px; color:#656d76">Output</label>
       <div class="out" id="out">—</div>
     </div>
   </div>
 </div>
 
-<h2>6. Tóm tắt</h2>
-
+<h2>6. Độ phức tạp</h2>
 <table>
-<tr><th>Bước</th><th>Nội dung</th><th>Phức tạp</th></tr>
-<tr><td>1</td><td>Dựng ma trận <code>a[u][v] = c[v]</code> nếu có cung</td><td>O(M)</td></tr>
-<tr><td>2</td><td>Khởi tạo ma trận đơn vị <code>b</code></td><td>O(N²)</td></tr>
-<tr><td>3</td><td>Luỹ thừa nhanh <code>a<sup>T</sup></code> bằng nhân (max, +)</td><td>O(N³ log T)</td></tr>
-<tr><td>4</td><td>Đáp án: <code>b[1][1] + c[1]</code> hoặc <code>-1</code></td><td>O(1)</td></tr>
+<tr><th>Bước</th><th>Phức tạp</th></tr>
+<tr><td>Dựng ma trận</td><td>O(N² + M)</td></tr>
+<tr><td>Luỹ thừa nhanh M<sup>T</sup></td><td>O(N³ log T)</td></tr>
+<tr><td>Tổng</td><td>O(N³ log T) — N=250, log T ≈ 30 → chạy tốt trong 1–2 giây</td></tr>
 </table>
-
-<div class="box accent">
-<strong>Tổng kết:</strong> Bài toán = "đường đi có trọng số lớn nhất dài đúng T bước, quay về đỉnh 1".
-Công cụ: <strong>ma trận trên nửa vành (max, +)</strong> + <strong>luỹ thừa nhanh</strong>.
-Đây là dạng kinh điển của "max-plus algebra" — xuất hiện nhiều trong bài toán đường đi dài nhất với số bước cố định.
-</div>
 
 </div>
 
 <footer>
-  Trang phân tích TRIP01 · congthanhvip.github.io · 2026-10-10
+  TRIP01 · congthanhvip.github.io · 2026-10-10
 </footer>
 
 <script>
@@ -388,47 +307,33 @@ function runDemo(){
     const [n, m, t0] = lines[0].split(/\s+/).map(Number);
     const c = [0, ...lines[1].split(/\s+/).map(Number)];
     if (c.length - 1 !== n) throw new Error("Số đỉnh không khớp trọng số");
-
     const NEG = -1e15;
-    // Ma trận a: kích thước (n+1) x (n+1), đánh số 1..n
-    const a = Array.from({length:n+1}, () => new Array(n+1).fill(NEG));
-    for (let i = 1; i <= n; i++)
-      for (let j = 1; j <= n; j++)
-        a[i][j] = (i === j ? NEG : NEG); // tất cả -INF ban đầu
-
+    let a = Array.from({length:n+1}, () => new Array(n+1).fill(NEG));
     for (let k = 0; k < m; k++){
       const [u, v] = lines[2+k].split(/\s+/).map(Number);
       a[u][v] = Math.max(a[u][v], c[v]);
     }
-
-    // b = ma trận đơn vị (max, +)
     let b = Array.from({length:n+1}, () => new Array(n+1).fill(NEG));
     for (let i = 1; i <= n; i++) b[i][i] = 0;
-
-    // mul(x, y) -> z
     function mul(x, y){
       const z = Array.from({length:n+1}, () => new Array(n+1).fill(NEG));
       for (let i = 1; i <= n; i++)
         for (let j = 1; j <= n; j++){
           let best = NEG;
-          for (let k = 1; k <= n; k++){
+          for (let k = 1; k <= n; k++)
             if (x[i][k] !== NEG && y[k][j] !== NEG)
               best = Math.max(best, x[i][k] + y[k][j]);
-          }
           z[i][j] = best;
         }
       return z;
     }
-
     let t = t0;
     while (t > 0){
       if (t & 1) b = mul(b, a);
       a = mul(a, a);
       t >>= 1;
     }
-
-    if (b[1][1] === NEG) out.textContent = "-1";
-    else out.textContent = String(b[1][1] + c[1]);
+    out.textContent = b[1][1] === NEG ? "-1" : String(b[1][1] + c[1]);
   } catch(e){
     out.textContent = "Lỗi input: " + e.message;
   }
