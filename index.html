@@ -9,26 +9,64 @@
   body { margin: 0; background: #fff; color: #1f2328;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     line-height: 1.75; }
-  .wrap { max-width: 900px; margin: 0 auto; padding: 24px 24px 80px; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 48px 24px 80px; }
+  h1 { font-size: 30px; margin: 0 0 8px; color: #0a3069; }
+  .sub { color: #656d76; font-size: 15px; margin-bottom: 40px; }
+  .card { display: block; text-decoration: none; color: inherit;
+    background: #f6f8fa; border: 1px solid #d0d7de; border-radius: 10px;
+    padding: 20px 24px; margin-bottom: 16px; transition: 0.15s; }
+  .card:hover { border-color: #0969da; background: #f0f8ff; }
+  .card h2 { margin: 0 0 6px; font-size: 19px; color: #0969da; }
+  .card p { margin: 0; color: #656d76; font-size: 14px; }
+  .tag { display: inline-block; background: #ddf4ff; color: #0969da;
+    padding: 2px 10px; border-radius: 12px; font-size: 12px;
+    margin-right: 6px; margin-top: 10px; }
+  footer { color: #656d76; font-size: 13px; text-align: center; padding: 40px 0 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Lời giải bài tập</h1>
+<div class="sub">Phân tích + code C++ + demo trực quan</div>
+
+<a class="card" href="trip01.html">
+  <h2>TRIP01 — Hành trình quay về đỉnh 1</h2>
+  <p>Đồ thị có hướng, mỗi cung tốn 1 đơn vị thời gian, tìm tổng phần thưởng lớn nhất khi quay về đỉnh 1 đúng lúc T.</p>
+  <span class="tag">Ma trận max-plus</span>
+  <span class="tag">Luỹ thừa nhanh</span>
+  <span class="tag">O(N³ log T)</span>
+</a>
+
+<a class="card" href="trip02.html">
+  <h2>TRIP02 — Hành trình có sự kiện đặc biệt</h2>
+  <p>Cung có trọng số thời gian w (1…5), k sự kiện (t, x, y) cộng thưởng nếu ở đúng đỉnh đúng lúc.</p>
+  <span class="tag">Ma trận 5n</span>
+  <span class="tag">Sự kiện</span>
+  <span class="tag">O((5n)³ log T)</span>
+</a>
+
+<footer>congthanhvip.github.io · 2026-10-10</footer>
+</div>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TRIP01 — Lời giải</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #fff; color: #1f2328;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.75; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 24px 24px 80px; }
+  .back { display: inline-block; color: #0969da; text-decoration: none;
+    font-size: 14px; margin-bottom: 16px; }
+  .back:hover { text-decoration: underline; }
   h1 { font-size: 28px; margin: 0 0 8px; color: #0a3069; }
   .sub { color: #656d76; font-size: 15px; margin-bottom: 24px; }
-
-  /* Menu tab */
-  .tabs {
-    display: flex; gap: 8px; border-bottom: 2px solid #d0d7de;
-    margin-bottom: 24px; padding-bottom: 0;
-  }
-  .tab {
-    padding: 10px 18px; cursor: pointer; border: none; background: none;
-    font-size: 15px; font-weight: 600; color: #656d76;
-    border-bottom: 3px solid transparent; margin-bottom: -2px;
-    font-family: inherit;
-  }
-  .tab:hover { color: #0969da; }
-  .tab.active { color: #0969da; border-bottom-color: #0969da; }
-  .tab-content { display: none; }
-  .tab-content.active { display: block; }
-
   h2 { font-size: 22px; margin-top: 40px; padding-top: 16px;
     border-top: 1px solid #d0d7de; color: #0969da; }
   h3 { font-size: 17px; margin-top: 24px; color: #1f2328; }
@@ -77,29 +115,70 @@
 <body>
 <div class="wrap">
 
-<h1>congthanhvip — Lời giải bài tập</h1>
-<div class="sub">Tổng hợp lời giải + phân tích + demo trực quan</div>
+<a class="back" href="index.html">← Về trang chủ</a>
 
-<div class="tabs">
-  <button class="tab active" onclick="showTab('trip01', this)">TRIP01</button>
-  <button class="tab" onclick="showTab('trip02', this)">TRIP02</button>
+<h1>TRIP01 — Hành trình quay về đỉnh 1</h1>
+<div class="sub">Tổng phần thưởng lớn nhất khi quay về đỉnh 1 đúng lúc T</div>
+
+<div>
+  <span class="tag">Đồ thị có hướng</span>
+  <span class="tag">Ma trận max-plus</span>
+  <span class="tag">Luỹ thừa nhanh</span>
+  <span class="tag">O(N³ log T)</span>
 </div>
 
-<!-- ============ TRIP01 ============ -->
-<div id="trip01" class="tab-content active">
+<h2>1. Đề bài</h2>
+<p>Cho đồ thị có hướng <code>N</code> đỉnh, <code>M</code> cung. Mỗi đỉnh <code>i</code> có trọng số
+phần thưởng <code>c[i]</code>. Mỗi cung tốn 1 đơn vị thời gian. Xuất phát tại đỉnh 1 lúc t=0,
+quay về đỉnh 1 đúng lúc T. Mỗi lần ghé đỉnh nhận <code>c[i]</code>. Tìm tổng phần thưởng lớn nhất,
+hoặc <code>-1</code>.</p>
 
-<h2>TRIP01 — Hành trình quay về đỉnh 1</h2>
-<p>Cho đồ thị có hướng <code>N</code> đỉnh, <code>M</code> cung. Mỗi đỉnh có trọng số <code>c[i]</code>.
-Mỗi cung tốn 1 đơn vị thời gian. Xuất phát đỉnh 1 lúc t=0, quay về đỉnh 1 đúng lúc T.
-Mỗi lần ghé đỉnh nhận <code>c[i]</code>. Tìm tổng phần thưởng lớn nhất, hoặc <code>-1</code>.</p>
+<table>
+<tr><th>Ràng buộc</th><th>Giá trị</th></tr>
+<tr><td>N</td><td>≤ 250</td></tr>
+<tr><td>M</td><td>≤ 1000</td></tr>
+<tr><td>T</td><td>≤ 10⁹</td></tr>
+<tr><td>c[i]</td><td>1 … 10⁴</td></tr>
+</table>
+
+<h2>2. Ý tưởng</h2>
+
+<div class="box quote">
+<strong>💬 Trích lời thầy:</strong><br>
+"Ta tận dụng việc không tồn tại ràng buộc về số lần ghé thăm mỗi đỉnh để xây dựng hẳn
+một ma trận biến đổi cố định:<br><br>
+<code>M[u, v]</code> = điểm thưởng lớn nhất để đi từ u đến v qua <strong>đúng 1 cạnh</strong>.<br>
+Suy ra:<br>
+<code>M²[u, v]</code> = điểm lớn nhất qua đúng 2 cạnh<br>
+…<br>
+<code>M<sup>k</sup>[u, v]</code> = điểm lớn nhất qua đúng k cạnh.<br><br>
+Vậy để tính điểm lớn nhất để đi từ 1 đến tất cả các đỉnh sau đúng T cạnh,
+ta chỉ cần lấy <code>V * M<sup>T</sup></code>,<br>
+với <code>V[1] = 0, V[u] = -∞ với mọi u khác 1</code>."
+</div>
+
+<h3>Ma trận biến đổi M</h3>
+<pre><code>M[u][v] = c[v]   nếu có cung u → v
+M[u][v] = -∞     nếu không có cung</code></pre>
+
+<h3>Phép nhân max-plus</h3>
+<pre><code>(X ⊗ Y)[i][j] = max_k ( X[i][k] + Y[k][j] )</code></pre>
+
+<h3>Đáp án</h3>
+<pre><code>ans = M<sup>T</sup>[1][1] + c[1]</code></pre>
 
 <div class="box accent">
-<strong>Ý tưởng:</strong> Ma trận <code>M[u][v] = c[v]</code> nếu có cung u→v. Khi đó <code>M<sup>k</sup>[u][v]</code>
-= điểm lớn nhất đi u→v qua đúng k cạnh. Đáp án = <code>M<sup>T</sup>[1][1] + c[1]</code>.
-Dùng nhân max-plus + luỹ thừa nhanh <code>O(N³ log T)</code>.
+<strong>Lưu ý về c[1]:</strong> Vì <code>M[u][v] = c[v]</code> chỉ cộng phần thưởng khi <em>tới</em> v,
+còn phần thưởng tại điểm xuất phát <code>c[1]</code> (t = 0) chưa được cộng.
+Vậy phải cộng thêm <code>c[1]</code> ở cuối.
 </div>
 
-<h3>Code C++</h3>
+<h3>Kiểm chứng Ví dụ 1</h3>
+<p>N=3, M=4, T=6, c = [5, 2, 8], cung: 1→2, 2→1, 2→3, 3→1.</p>
+<p>Chu trình 1→2→3→1 dài 3 bước, điểm mỗi vòng = 2 + 8 + 5 = 15.</p>
+<p>T = 6 = 3×2 → <code>M⁶[1][1] = 30</code>. Cộng <code>c[1] = 5</code> → <strong>35</strong>. ✓</p>
+
+<h2>3. Code C++</h2>
 <pre><code><span class="pp">#include</span><span class="str">&lt;bits/stdc++.h&gt;</span>
 <span class="pp">#define</span> ll <span class="kw">long long</span>
 <span class="kw">using namespace</span> std;
@@ -108,45 +187,58 @@ Dùng nhân max-plus + luỹ thừa nhanh <code>O(N³ log T)</code>.
 <span class="kw">int</span> n, m;
 ll t, c[N], a[N][N], b[N][N], d[N][N];
 <span class="kw">void</span> <span class="fn">mul</span>(ll x[N][N], ll y[N][N], ll z[N][N]){
-    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= n; i++)
+    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= n; i++){
         <span class="kw">for</span>(<span class="kw">int</span> j = <span class="num">1</span>; j &lt;= n; j++){
             z[i][j] = -INF;
-            <span class="kw">for</span>(<span class="kw">int</span> k = <span class="num">1</span>; k &lt;= n; k++)
-                <span class="kw">if</span>(x[i][k] != -INF &amp;&amp; y[k][j] != -INF)
+            <span class="kw">for</span>(<span class="kw">int</span> k = <span class="num">1</span>; k &lt;= n; k++){
+                <span class="kw">if</span>(x[i][k] != -INF &amp;&amp; y[k][j] != -INF){
                     z[i][j] = <span class="fn">max</span>(z[i][j], x[i][k] + y[k][j]);
+                }
+            }
         }
+    }
 }
 <span class="kw">void</span> <span class="fn">init</span>(){
     ios_base::<span class="fn">sync_with_stdio</span>(<span class="kw">false</span>);
+    cin.<span class="fn">tie</span>(<span class="num">0</span>); cout.<span class="fn">tie</span>(<span class="num">0</span>);
     cin &gt;&gt; n &gt;&gt; m &gt;&gt; t;
     <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= n; i++) cin &gt;&gt; c[i];
-    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= n; i++)
+    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= n; i++){
         <span class="kw">for</span>(<span class="kw">int</span> j = <span class="num">1</span>; j &lt;= n; j++) a[i][j] = -INF;
+    }
     <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= m; i++){
         <span class="kw">int</span> u, v; cin &gt;&gt; u &gt;&gt; v;
         a[u][v] = <span class="fn">max</span>(a[u][v], c[v]);
     }
 }
 <span class="kw">void</span> <span class="fn">solve</span>(){
-    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= n; i++)
-        <span class="kw">for</span>(<span class="kw">int</span> j = <span class="num">1</span>; j &lt;= n; j++) b[i][j] = (i == j ? <span class="num">0</span> : -INF);
+    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= n; i++){
+        <span class="kw">for</span>(<span class="kw">int</span> j = <span class="num">1</span>; j &lt;= n; j++){
+            b[i][j] = (i == j ? <span class="num">0</span> : -INF);
+        }
+    }
     <span class="kw">while</span>(t &gt; <span class="num">0</span>){
         <span class="kw">if</span>(t &amp; <span class="num">1</span>){
             <span class="fn">mul</span>(b, a, d);
-            <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= n; i++)
+            <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= n; i++){
                 <span class="kw">for</span>(<span class="kw">int</span> j = <span class="num">1</span>; j &lt;= n; j++) b[i][j] = d[i][j];
+            }
         }
         <span class="fn">mul</span>(a, a, d);
-        <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= n; i++)
+        <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= n; i++){
             <span class="kw">for</span>(<span class="kw">int</span> j = <span class="num">1</span>; j &lt;= n; j++) a[i][j] = d[i][j];
+        }
         t &gt;&gt;= <span class="num">1</span>;
     }
     <span class="kw">if</span>(b[<span class="num">1</span>][<span class="num">1</span>] == -INF) cout &lt;&lt; <span class="num">-1</span>;
     <span class="kw">else</span> cout &lt;&lt; b[<span class="num">1</span>][<span class="num">1</span>] + c[<span class="num">1</span>];
 }
-<span class="kw">int</span> <span class="fn">main</span>(){ <span class="fn">init</span>(); <span class="fn">solve</span>(); }</code></pre>
+<span class="kw">int</span> <span class="fn">main</span>(){
+    <span class="fn">init</span>();
+    <span class="fn">solve</span>();
+}</code></pre>
 
-<h3>Chạy thử</h3>
+<h2>4. Chạy thử</h2>
 <div class="demo">
   <div class="io">
     <div>
@@ -170,254 +262,47 @@ ll t, c[N], a[N][N], b[N][N], d[N][N];
   <h3 style="margin-top:0">📊 Đồ thị</h3>
   <canvas id="graph1" width="820" height="420"
     style="width:100%; background:#fff; border:1px solid #d0d7de; border-radius:6px;"></canvas>
+  <div style="margin-top:10px; font-size:13px; color:#656d76">
+    🔴 Đỉnh 1 (xuất phát) · 🔵 Đỉnh khác
+  </div>
 </div>
 
 <div class="demo">
-  <h3 style="margin-top:0">🧪 Test mẫu</h3>
+  <h3 style="margin-top:0">🧪 Test từ đề gốc</h3>
   <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px">
-    <button onclick="loadTest1(0)" style="background:#0969da">Test 1</button>
-    <button onclick="loadTest1(1)" style="background:#0969da">Test 2</button>
-    <button onclick="loadTest1(2)" style="background:#0969da">Test 3</button>
-    <button onclick="loadTest1(3)" style="background:#0969da">Test 4</button>
+    <button onclick="loadTest1(0)" style="background:#0969da">Ví dụ 1</button>
+    <button onclick="loadTest1(1)" style="background:#0969da">Ví dụ 2</button>
   </div>
   <div id="explain1" style="background:#fff; border:1px solid #d0d7de; border-radius:6px; padding:12px 16px; font-size:14px;"></div>
 </div>
 
-</div><!-- /trip01 -->
-
-<!-- ============ TRIP02 ============ -->
-<div id="trip02" class="tab-content">
-
-<h2>TRIP02 — Hành trình có sự kiện đặc biệt</h2>
-<p>Giống TRIP01 nhưng mỗi cung có <strong>trọng số thời gian</strong> <code>w[i]</code> (1…5),
-và có <code>k</code> sự kiện đặc biệt <code>(t, x, y)</code>: nếu ở đỉnh <code>x</code> đúng lúc <code>t</code>
-thì cộng thêm <code>y</code> (nếu đang đi trên đường thì không nhận).</p>
-
-<table>
-<tr><th>Ràng buộc</th><th>Giá trị</th></tr>
-<tr><td>N</td><td>≤ 50</td></tr>
-<tr><td>M</td><td>≤ 550</td></tr>
-<tr><td>K</td><td>≤ 200</td></tr>
-<tr><td>T</td><td>≤ 10⁹</td></tr>
-<tr><td>w[i]</td><td>1 … 5</td></tr>
-<tr><td>y[i]</td><td>≤ 10⁹</td></tr>
-</table>
-
-<div class="box accent">
-<strong>Ý tưởng:</strong> DP <code>dp[t][v]</code> = điểm tốt nhất đến v lúc t. Vì T quá lớn,
-chuyển sang <strong>ma trận max-plus kích thước 5n</strong> (nhớ 5 lớp thời gian gần nhất).
-Sự kiện đặc biệt = ma trận riêng cộng thêm <code>y</code> vào các cạnh đi vào <code>x</code>.
-Tiền xử lý <code>M^(2^i)</code> để xử lý mỗi khoảng trong <code>O((5n)² log T)</code>.
 </div>
 
-<div class="box quote">
-<strong>💡 Tại sao ma trận 5n?</strong><br>
-Mỗi cung tốn từ 1 đến 5 đơn vị thời gian. Để tính <code>dp[t+1]</code>, cần biết
-<code>dp[t], dp[t-1], dp[t-2], dp[t-3], dp[t-4]</code>. Vậy vector trạng thái
-<code>V_t = [dp[t], dp[t-1], dp[t-2], dp[t-3], dp[t-4]]</code> có 5n phần tử.
-</div>
-
-<h3>Code C++</h3>
-<pre><code><span class="pp">#include</span><span class="str">&lt;bits/stdc++.h&gt;</span>
-<span class="pp">#define</span> ll <span class="kw">long long</span>
-<span class="kw">using namespace</span> std;
-<span class="kw">const int</span> N = <span class="num">52</span>;
-<span class="kw">const int</span> S = <span class="num">250</span>;
-<span class="kw">const int</span> LOG = <span class="num">30</span>;
-<span class="kw">const</span> ll NEG = -(<span class="num">1LL</span> &lt;&lt; <span class="num">60</span>);
-<span class="kw">int</span> n, m, k, u[N * <span class="num">12</span>], v[N * <span class="num">12</span>], w[N * <span class="num">12</span>], cnt;
-<span class="kw">int</span> sz;
-ll T, c[N];
-ll pw[LOG][S][S], tmp[S][S], dp[S], ndp[S];
-<span class="kw">struct</span> tt { ll t, y; <span class="kw">int</span> x; };
-tt e[<span class="num">205</span>];
-<span class="kw">bool</span> <span class="fn">cmp</span>(tt a, tt b){ <span class="kw">return</span> a.t &lt; b.t; }
-
-<span class="kw">void</span> <span class="fn">mul</span>(<span class="kw">int</span> z){
-    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i &lt; sz; i++)
-        <span class="kw">for</span>(<span class="kw">int</span> j = <span class="num">0</span>; j &lt; sz; j++) tmp[i][j] = NEG;
-    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i &lt; sz; i++)
-        <span class="kw">for</span>(<span class="kw">int</span> j = <span class="num">0</span>; j &lt; sz; j++){
-            <span class="kw">if</span>(pw[z][i][j] == NEG) <span class="kw">continue</span>;
-            ll x = pw[z][i][j];
-            <span class="kw">for</span>(<span class="kw">int</span> h = <span class="num">0</span>; h &lt; sz; h++){
-                <span class="kw">if</span>(pw[z][j][h] == NEG) <span class="kw">continue</span>;
-                tmp[i][h] = <span class="fn">max</span>(tmp[i][h], x + pw[z][j][h]);
-            }
-        }
-    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i &lt; sz; i++)
-        <span class="kw">for</span>(<span class="kw">int</span> j = <span class="num">0</span>; j &lt; sz; j++) pw[z + <span class="num">1</span>][i][j] = tmp[i][j];
-}
-
-<span class="kw">void</span> <span class="fn">apply</span>(<span class="kw">int</span> z){
-    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i &lt; sz; i++){
-        ndp[i] = NEG;
-        <span class="kw">for</span>(<span class="kw">int</span> j = <span class="num">0</span>; j &lt; sz; j++){
-            <span class="kw">if</span>(pw[z][i][j] == NEG || dp[j] == NEG) <span class="kw">continue</span>;
-            ndp[i] = <span class="fn">max</span>(ndp[i], pw[z][i][j] + dp[j]);
-        }
-    }
-    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i &lt; sz; i++) dp[i] = ndp[i];
-}
-
-<span class="kw">void</span> <span class="fn">go</span>(ll d){
-    <span class="kw">int</span> bit = <span class="num">0</span>;
-    <span class="kw">while</span>(d &gt; <span class="num">0</span>){
-        <span class="kw">if</span>(d &amp; <span class="num">1</span>) <span class="fn">apply</span>(bit);
-        d &gt;&gt;= <span class="num">1</span>;
-        bit++;
-    }
-}
-
-<span class="kw">void</span> <span class="fn">step</span>(<span class="kw">int</span> x, ll y){
-    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i &lt; sz; i++) ndp[i] = NEG;
-    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= cnt; i++){
-        <span class="kw">int</span> a = u[i], b = v[i], t = w[i];
-        ll val = dp[(t - <span class="num">1</span>) * n + a];
-        <span class="kw">if</span>(val == NEG) <span class="kw">continue</span>;
-        val += c[b];
-        <span class="kw">if</span>(b == x) val += y;
-        ndp[b] = <span class="fn">max</span>(ndp[b], val);
-    }
-    <span class="kw">for</span>(<span class="kw">int</span> j = <span class="num">1</span>; j &lt; <span class="num">5</span>; j++)
-        <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i &lt; n; i++)
-            ndp[j * n + i] = dp[(j - <span class="num">1</span>) * n + i];
-    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i &lt; sz; i++) dp[i] = ndp[i];
-}
-
-<span class="kw">void</span> <span class="fn">init</span>(){
-    ios::<span class="fn">sync_with_stdio</span>(<span class="kw">false</span>);
-    cin.<span class="fn">tie</span>(<span class="kw">nullptr</span>);
-    cin &gt;&gt; n &gt;&gt; m &gt;&gt; T &gt;&gt; k;
-    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i &lt; n; i++) cin &gt;&gt; c[i];
-    cnt = m;
-    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= m; i++){
-        cin &gt;&gt; u[i] &gt;&gt; v[i] &gt;&gt; w[i];
-        u[i]--; v[i]--;
-    }
-    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= k; i++){
-        cin &gt;&gt; e[i].t &gt;&gt; e[i].x &gt;&gt; e[i].y;
-        e[i].x--;
-    }
-    <span class="fn">sort</span>(e + <span class="num">1</span>, e + k + <span class="num">1</span>, cmp);
-}
-
-<span class="kw">void</span> <span class="fn">solve</span>(){
-    sz = <span class="num">5</span> * n;
-    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i &lt; sz; i++)
-        <span class="kw">for</span>(<span class="kw">int</span> j = <span class="num">0</span>; j &lt; sz; j++) pw[<span class="num">0</span>][i][j] = NEG;
-    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= m; i++){
-        <span class="kw">int</span> a = u[i], b = v[i], t = w[i];
-        pw[<span class="num">0</span>][b][(t - <span class="num">1</span>) * n + a] = <span class="fn">max</span>(pw[<span class="num">0</span>][b][(t - <span class="num">1</span>) * n + a], c[b]);
-    }
-    <span class="kw">for</span>(<span class="kw">int</span> j = <span class="num">1</span>; j &lt; <span class="num">5</span>; j++)
-        <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i &lt; n; i++)
-            pw[<span class="num">0</span>][j * n + i][(j - <span class="num">1</span>) * n + i] = <span class="num">0</span>;
-    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">1</span>; i &lt; LOG; i++) <span class="fn">mul</span>(i - <span class="num">1</span>);
-    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i &lt; sz; i++) dp[i] = NEG;
-    dp[<span class="num">0</span>] = c[<span class="num">0</span>];
-    ll cur = <span class="num">0</span>;
-    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= k; i++){
-        <span class="fn">go</span>(e[i].t - cur - <span class="num">1</span>);
-        <span class="fn">step</span>(e[i].x, e[i].y);
-        cur = e[i].t;
-    }
-    <span class="fn">go</span>(T - cur);
-    <span class="kw">if</span>(dp[<span class="num">0</span>] == NEG) cout &lt;&lt; <span class="num">-1</span>;
-    <span class="kw">else</span> cout &lt;&lt; dp[<span class="num">0</span>];
-}
-
-<span class="kw">int</span> <span class="fn">main</span>(){ <span class="fn">init</span>(); <span class="fn">solve</span>(); <span class="kw">return</span> <span class="num">0</span>; }</code></pre>
-
-<h3>Chạy thử</h3>
-<div class="demo">
-  <div class="io">
-    <div>
-      <label style="font-size:13px; color:#656d76">Input</label>
-      <textarea id="inp2">3 4 11 0
-1 3 4
-1 2 1
-2 1 3
-2 3 2
-3 1 4</textarea>
-      <button onclick="runTrip02()">▶ Chạy</button>
-    </div>
-    <div>
-      <label style="font-size:13px; color:#656d76">Output</label>
-      <div class="out" id="out2">—</div>
-    </div>
-  </div>
-</div>
-
-<div class="demo">
-  <h3 style="margin-top:0">📊 Đồ thị (có trọng số thời gian)</h3>
-  <canvas id="graph2" width="820" height="420"
-    style="width:100%; background:#fff; border:1px solid #d0d7de; border-radius:6px;"></canvas>
-</div>
-
-<div class="demo">
-  <h3 style="margin-top:0">🧪 Test mẫu</h3>
-  <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px">
-    <button onclick="loadTest2(0)" style="background:#0969da">Test 1 (đề)</button>
-    <button onclick="loadTest2(1)" style="background:#0969da">Test 2 (đề, có sự kiện)</button>
-    <button onclick="loadTest2(2)" style="background:#0969da">Test 3 (không về được)</button>
-    <button onclick="loadTest2(3)" style="background:#0969da">Test 4 (sự kiện trên đường đi)</button>
-  </div>
-  <div id="explain2" style="background:#fff; border:1px solid #d0d7de; border-radius:6px; padding:12px 16px; font-size:14px;"></div>
-</div>
-
-</div><!-- /trip02 -->
-
-</div><!-- /wrap -->
-
-<footer>congthanhvip.github.io · 2026-10-10</footer>
+<footer>TRIP01 · congthanhvip.github.io · 2026-10-10</footer>
 
 <script>
-function showTab(id, btn){
-  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
-}
-
-/* ==================== TRIP01 ==================== */
 const TESTS1 = [
   {
-    name: "Test 1 (đề ví dụ 1)",
+    name: "Ví dụ 1",
     input: "3 4 6\n5 2 8\n1 2\n2 1\n2 3\n3 1",
     explain: `
       <strong>Input:</strong> N=3, M=4, T=6, c=[5,2,8], cung: 1→2, 2→1, 2→3, 3→1.<br><br>
-      <strong>Chu trình tốt nhất:</strong> 1→2→3→1 (3 bước), điểm mỗi vòng = 2+8+5 = 15.<br>
-      T=6 = 3×2, lặp 2 vòng → M⁶[1][1] = 30.<br>
-      Cộng c[1]=5 tại t=0: 30+5 = <strong style="color:#1a7f37">35</strong>
+      <strong>Các chu trình quay về 1:</strong><br>
+      • 1→2→1 (2 bước): điểm = 5+2+5 = 12 → TB 6/bước<br>
+      • 1→2→3→1 (3 bước): điểm = 5+2+8+5 = 20 → TB 6.67/bước<br><br>
+      <strong>Chọn chu trình tốt hơn:</strong> 1→2→3→1. Với T=6 = 3×2, lặp 2 vòng.<br>
+      <strong>Tổng:</strong> 5 (t=0) + 2 + 8 + 5 (t=3) + 2 + 8 + 5 (t=6) = <strong style="color:#1a7f37">35</strong>
     `
   },
   {
-    name: "Test 2 (đề ví dụ 2)",
+    name: "Ví dụ 2",
     input: "4 4 5\n10 20 30 40\n1 2\n2 3\n3 4\n4 1",
     explain: `
-      <strong>Input:</strong> N=4, T=5, chu trình 1→2→3→4→1 dài 4 bước.<br>
-      T=5 không chia hết cho 4 → không thể ở đỉnh 1 lúc t=5.<br>
+      <strong>Input:</strong> N=4, M=4, T=5, c=[10,20,30,40].<br>
+      <strong>Đồ thị:</strong> một chu trình 1→2→3→4→1 (độ dài 4).<br><br>
+      Muốn về 1, số bước phải là bội của 4: 4, 8, 12, …<br>
+      Nhưng T=5 không chia hết cho 4 → tại t=5 đang ở đỉnh 2, không thể ở 1.<br><br>
       <strong>Kết quả:</strong> <strong style="color:#cf222e">-1</strong>
-    `
-  },
-  {
-    name: "Test 3 (chu trình 2 bước)",
-    input: "2 2 4\n7 3\n1 2\n2 1",
-    explain: `
-      <strong>Input:</strong> N=2, T=4, c=[7,3], cung: 1↔2.<br>
-      Chu trình 1→2→1 dài 2 bước, điểm mỗi vòng = 3+7 = 10.<br>
-      T=4 = 2 vòng → M⁴[1][1] = 20. Cộng c[1]=7: 20+7 = <strong style="color:#1a7f37">27</strong><br><br>
-      <strong>Kiểm tra:</strong> 7(t=0)+3+7+3+7(t=4) = 27 ✓
-    `
-  },
-  {
-    name: "Test 4 (nhiều cung song song)",
-    input: "3 5 4\n2 5 7\n1 2\n1 2\n2 3\n3 1\n1 3",
-    explain: `
-      <strong>Input:</strong> N=3, T=4, c=[2,5,7], cung 1→2 hai lần.<br>
-      Chu trình tốt nhất: 1→3→1 (2 bước), điểm mỗi vòng = 2+7+2 = 11.<br>
-      T=4 = 2 vòng → M⁴[1][1] = 22. Cộng c[1]=2: 22+2 = <strong style="color:#1a7f37">24</strong>
     `
   }
 ];
@@ -436,46 +321,58 @@ function runTrip01(){
   const out = document.getElementById('out1');
   try {
     const p = lines[0].split(/\s+/).map(Number);
-    const n = p[0], m = p[1], t0 = p[2];
+    const n = p[0], m = p[1];
+    let t0 = p[2];
     const c = [0].concat(lines[1].split(/\s+/).map(Number));
-    if (c.length - 1 !== n) throw new Error("Số đỉnh không khớp");
+    if (c.length - 1 !== n) throw new Error("Số đỉnh không khớp trọng số");
+
     const edges = [];
     for (let k = 0; k < m; k++){
       const uv = lines[2+k].split(/\s+/).map(Number);
       edges.push([uv[0], uv[1]]);
     }
-    const NEG = -1e15;
-    let a = [];
-    for (let i = 0; i <= n; i++) a.push(new Array(n+1).fill(NEG));
-    for (const [u, v] of edges) a[u][v] = Math.max(a[u][v], c[v]);
 
-    let b = [];
-    for (let i = 0; i <= n; i++) b.push(new Array(n+1).fill(NEG));
+    const INF = 1e18;
+    let a = [], b = [], d = [];
+    for (let i = 0; i <= n; i++){
+      a.push(new Array(n+1).fill(-INF));
+      b.push(new Array(n+1).fill(-INF));
+      d.push(new Array(n+1).fill(-INF));
+    }
+    for (const [u, v] of edges){
+      a[u][v] = Math.max(a[u][v], c[v]);
+    }
     for (let i = 1; i <= n; i++) b[i][i] = 0;
 
-    const mul = (x, y) => {
-      const z = [];
-      for (let i = 0; i <= n; i++) z.push(new Array(n+1).fill(NEG));
-      for (let i = 1; i <= n; i++)
+    function mul(x, y, z){
+      for (let i = 1; i <= n; i++){
         for (let j = 1; j <= n; j++){
-          let best = NEG;
-          for (let k = 1; k <= n; k++)
-            if (x[i][k] !== NEG && y[k][j] !== NEG)
-              best = Math.max(best, x[i][k] + y[k][j]);
-          z[i][j] = best;
+          z[i][j] = -INF;
+          for (let k = 1; k <= n; k++){
+            if (x[i][k] !== -INF && y[k][j] !== -INF){
+              z[i][j] = Math.max(z[i][j], x[i][k] + y[k][j]);
+            }
+          }
         }
-      return z;
-    };
+      }
+    }
+
     let t = t0;
     while (t > 0){
-      if (t & 1) b = mul(b, a);
-      a = mul(a, a);
+      if (t & 1){
+        mul(b, a, d);
+        for (let i = 1; i <= n; i++)
+          for (let j = 1; j <= n; j++) b[i][j] = d[i][j];
+      }
+      mul(a, a, d);
+      for (let i = 1; i <= n; i++)
+        for (let j = 1; j <= n; j++) a[i][j] = d[i][j];
       t >>= 1;
     }
-    out.textContent = b[1][1] === NEG ? "-1" : String(b[1][1] + c[1]);
+    out.textContent = (b[1][1] === -INF) ? "-1" : String(b[1][1] + c[1]);
     drawGraph1(n, c, edges);
   } catch(e){
-    out.textContent = "Lỗi: " + e.message;
+    out.textContent = "Lỗi input: " + e.message;
   }
 }
 
@@ -512,7 +409,7 @@ function drawGraph1(n, c, edges){
     const hasRev = edges.some(([a,b]) => a===v && b===u);
     if (u === v){
       ctx.beginPath();
-      ctx.arc(p1.x, p1.y - nodeR - 15, 15, 0, Math.PI*2);
+      ctx.arc(p1.x, p1.y-nodeR-15, 15, 0, Math.PI*2);
       ctx.stroke();
       arrow(ctx, p1.x+10, p1.y-nodeR-5, Math.PI/4, col);
     } else if (hasRev){
@@ -553,14 +450,329 @@ function arrow(ctx, x, y, ang, col){
 }
 
 runTrip01();
- /* ==================== TRIP02 ==================== */
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TRIP02 — Lời giải</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #fff; color: #1f2328;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.75; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 24px 24px 80px; }
+  .back { display: inline-block; color: #0969da; text-decoration: none;
+    font-size: 14px; margin-bottom: 16px; }
+  .back:hover { text-decoration: underline; }
+  h1 { font-size: 28px; margin: 0 0 8px; color: #0a3069; }
+  .sub { color: #656d76; font-size: 15px; margin-bottom: 24px; }
+  h2 { font-size: 22px; margin-top: 40px; padding-top: 16px;
+    border-top: 1px solid #d0d7de; color: #0969da; }
+  h3 { font-size: 17px; margin-top: 24px; color: #1f2328; }
+  p { color: #1f2328; }
+  ul, ol { color: #1f2328; padding-left: 24px; }
+  li { margin: 4px 0; }
+  code { background: #f6f8fa; padding: 2px 6px; border-radius: 4px;
+    font-family: "SF Mono", Consolas, "Courier New", monospace;
+    font-size: 13.5px; color: #cf222e; }
+  pre { background: #f6f8fa; border: 1px solid #d0d7de; border-radius: 8px;
+    padding: 14px 16px; overflow-x: auto; font-size: 13.5px; line-height: 1.65;
+    font-family: "SF Mono", Consolas, "Courier New", monospace; margin: 12px 0; }
+  pre code { background: none; padding: 0; color: #1f2328; font-size: 13.5px; }
+  .kw  { color: #cf222e; font-weight: 600; }
+  .num { color: #0550ae; }
+  .str { color: #0a3069; }
+  .fn  { color: #8250df; }
+  .cmt { color: #6e7781; font-style: italic; }
+  .pp  { color: #cf222e; }
+  .box { background: #f6f8fa; border: 1px solid #d0d7de; border-radius: 8px;
+    padding: 14px 18px; margin: 18px 0; }
+  .box.accent { border-left: 4px solid #fd8c73; background: #fff8f5; }
+  .box.quote { border-left: 4px solid #8250df; background: #faf5ff; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+  th, td { border: 1px solid #d0d7de; padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { background: #f6f8fa; color: #0a3069; }
+  .demo { background: #f6f8fa; border: 1px solid #d0d7de; border-radius: 8px;
+    padding: 18px; margin: 22px 0; }
+  .io { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  textarea { width: 100%; min-height: 170px; background: #fff; color: #1f2328;
+    border: 1px solid #d0d7de; border-radius: 6px; padding: 10px;
+    font-family: "SF Mono", Consolas, monospace; font-size: 13px; resize: vertical; }
+  button { background: #1f883d; color: #fff; border: 0; padding: 9px 18px;
+    border-radius: 6px; font-weight: 600; cursor: pointer; margin-top: 10px;
+    font-size: 14px; font-family: inherit; }
+  button:hover { opacity: 0.9; }
+  .out { background: #fff; border: 1px solid #d0d7de; border-radius: 6px;
+    padding: 10px; min-height: 170px; font-family: "SF Mono", Consolas, monospace;
+    font-size: 13px; white-space: pre-wrap; color: #1a7f37; }
+  .tag { display: inline-block; background: #ddf4ff; color: #0969da;
+    padding: 2px 10px; border-radius: 12px; font-size: 12px;
+    margin-right: 6px; margin-bottom: 6px; }
+  footer { color: #656d76; font-size: 13px; text-align: center; padding: 32px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<a class="back" href="index.html">← Về trang chủ</a>
+
+<h1>TRIP02 — Hành trình có sự kiện đặc biệt</h1>
+<div class="sub">Cung có trọng số thời gian w, k sự kiện (t, x, y)</div>
+
+<div>
+  <span class="tag">Ma trận 5n</span>
+  <span class="tag">Sự kiện</span>
+  <span class="tag">Max-plus</span>
+  <span class="tag">O((5n)³ log T)</span>
+</div>
+
+<h2>1. Đề bài</h2>
+<p>Cho đồ thị có hướng <code>N</code> đỉnh, <code>M</code> cung. Mỗi đỉnh <code>i</code> có trọng số
+phần thưởng <code>c[i]</code>. Mỗi cung <code>u → v</code> tốn <code>w[i]</code> đơn vị thời gian (1 ≤ w ≤ 5).
+Xuất phát tại đỉnh 1 lúc t=0, quay về đỉnh 1 đúng lúc T.</p>
+<p>Có <code>k</code> sự kiện đặc biệt <code>(t, x, y)</code>: nếu ở đỉnh <code>x</code> đúng lúc <code>t</code>
+thì cộng thêm <code>y</code>. Nếu đang đi trên đường thì không nhận.</p>
+<p>Tìm tổng phần thưởng lớn nhất, hoặc <code>-1</code>.</p>
+
+<table>
+<tr><th>Ràng buộc</th><th>Giá trị</th></tr>
+<tr><td>N</td><td>≤ 50</td></tr>
+<tr><td>M</td><td>≤ 550</td></tr>
+<tr><td>K</td><td>≤ 200</td></tr>
+<tr><td>T</td><td>≤ 10⁹</td></tr>
+<tr><td>w[i]</td><td>1 … 5</td></tr>
+<tr><td>c[i]</td><td>≤ 52525</td></tr>
+<tr><td>y[i]</td><td>≤ 10⁹</td></tr>
+</table>
+
+<h2>2. Ý tưởng</h2>
+
+<div class="box quote">
+<strong>💬 Lời giải:</strong><br>
+"Điểm khó nhất là <code>T ≤ 10⁹</code>, không thể chạy DP từng thời điểm. Nhưng trọng số thời gian
+của mỗi cạnh chỉ từ 1 đến 5, giúp ta xây dựng ma trận chuyển trạng thái kích thước nhỏ."
+</div>
+
+<h3>2.1. DP cơ bản (khi T nhỏ)</h3>
+<pre><code>dp[t][v] = phần thưởng lớn nhất khi đến đỉnh v đúng thời điểm t
+dp[0][1] = c[1]
+Với mỗi cạnh u → v có thời gian w:
+    dp[t + w][v] = max(dp[t + w][v], dp[t][u] + c[v])</code></pre>
+
+<h3>2.2. Biến DP thành ma trận max-plus</h3>
+<p>Dùng nhân max-plus: <code>C_ij = max_k (A_ik + B_kj)</code>.</p>
+
+<h3>2.3. Tại sao ma trận kích thước 5n?</h3>
+<div class="box accent">
+Một cạnh có thể mất từ 1 đến 5 đơn vị thời gian. Vì vậy, để tính DP ở thời điểm tiếp theo,
+ta cần nhớ DP của <strong>5 lớp thời gian gần nhất</strong>:<br><br>
+<code>V_t = [dp[t], dp[t-1], dp[t-2], dp[t-3], dp[t-4]]<sup>T</sup></code><br><br>
+Mỗi lớp có n phần tử → vector có 5n phần tử. Ta có <code>V_{t+1} = M · V_t</code>.
+</div>
+
+<h3>2.4. Ma trận M có hai phần</h3>
+<ul>
+<li><strong>Phần chuyển trạng thái:</strong> Với cạnh <code>u → v</code> có trọng số w,
+cập nhật từ <code>dp[t + 1 - w][u]</code> sang <code>dp[t+1][v]</code>, cộng phần thưởng <code>c[v]</code>.</li>
+<li><strong>Phần dịch lớp:</strong> Chuyển các lớp <code>dp[t]</code>, <code>dp[t-1]</code>, …
+xuống vị trí tiếp theo trong vector.</li>
+</ul>
+
+<h3>2.5. Xử lý sự kiện đặc biệt</h3>
+<p>Khi đến đỉnh <code>x</code> đúng thời điểm <code>t</code>, được thêm <code>y</code> điểm.
+Gọi <code>M_t</code> là ma trận đặc biệt ở thời điểm <code>t</code>: mọi cạnh đi vào <code>x</code>
+đều được cộng thêm <code>y</code>.</p>
+<pre><code>V_t = M_t · V_{t-1}</code></pre>
+<p>Sắp xếp sự kiện theo thời gian. Giữa hai sự kiện, dùng luỹ thừa ma trận thường.
+Đúng tại thời điểm sự kiện, dùng ma trận đặc biệt.</p>
+
+<h3>2.6. Tối ưu luỹ thừa</h3>
+<p>Tiền xử lý <code>P_i = M^(2^i)</code> để mỗi khoảng thời gian chỉ cần
+<code>O(log T)</code> phép nhân vector.</p>
+
+<h2>3. Code C++</h2>
+<pre><code><span class="pp">#include</span><span class="str">&lt;bits/stdc++.h&gt;</span>
+<span class="pp">#define</span> ll <span class="kw">long long</span>
+<span class="kw">using namespace</span> std;
+<span class="kw">const int</span> N = <span class="num">52</span>;
+<span class="kw">const int</span> S = <span class="num">250</span>;
+<span class="kw">const int</span> LOG = <span class="num">30</span>;
+<span class="kw">const</span> ll NEG = -(<span class="num">1LL</span> &lt;&lt; <span class="num">60</span>);
+<span class="kw">int</span> n, m, k, u[N * <span class="num">12</span>], v[N * <span class="num">12</span>], w[N * <span class="num">12</span>], cnt;
+<span class="kw">int</span> sz;
+ll T, c[N];
+ll pw[LOG][S][S], tmp[S][S], dp[S], ndp[S];
+<span class="kw">struct</span> tt{
+    ll t, y;
+    <span class="kw">int</span> x;
+};
+tt e[<span class="num">205</span>];
+<span class="kw">bool</span> <span class="fn">cmp</span>(tt a, tt b){
+    <span class="kw">return</span> a.t &lt; b.t;
+}
+<span class="kw">void</span> <span class="fn">mul</span>(<span class="kw">int</span> z){
+    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i &lt; sz; i++){
+        <span class="kw">for</span>(<span class="kw">int</span> j = <span class="num">0</span>; j &lt; sz; j++){
+            tmp[i][j] = NEG;
+        }
+    }
+    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i &lt; sz; i++){
+        <span class="kw">for</span>(<span class="kw">int</span> j = <span class="num">0</span>; j &lt; sz; j++){
+            <span class="kw">if</span>(pw[z][i][j] == NEG) <span class="kw">continue</span>;
+            ll x = pw[z][i][j];
+            <span class="kw">for</span>(<span class="kw">int</span> h = <span class="num">0</span>; h &lt; sz; h++){
+                <span class="kw">if</span>(pw[z][j][h] == NEG) <span class="kw">continue</span>;
+                tmp[i][h] = <span class="fn">max</span>(tmp[i][h], x + pw[z][j][h]);
+            }
+        }
+    }
+    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i &lt; sz; i++){
+        <span class="kw">for</span>(<span class="kw">int</span> j = <span class="num">0</span>; j &lt; sz; j++){
+            pw[z + <span class="num">1</span>][i][j] = tmp[i][j];
+        }
+    }
+}
+<span class="kw">void</span> <span class="fn">apply</span>(<span class="kw">int</span> z){
+    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i &lt; sz; i++){
+        ndp[i] = NEG;
+        <span class="kw">for</span>(<span class="kw">int</span> j = <span class="num">0</span>; j &lt; sz; j++){
+            <span class="kw">if</span>(pw[z][i][j] == NEG || dp[j] == NEG) <span class="kw">continue</span>;
+            ndp[i] = <span class="fn">max</span>(ndp[i], pw[z][i][j] + dp[j]);
+        }
+    }
+    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i &lt; sz; i++) dp[i] = ndp[i];
+}
+<span class="kw">void</span> <span class="fn">go</span>(ll d){
+    <span class="kw">int</span> bit = <span class="num">0</span>;
+    <span class="kw">while</span>(d &gt; <span class="num">0</span>){
+        <span class="kw">if</span>(d &amp; <span class="num">1</span>) <span class="fn">apply</span>(bit);
+        d &gt;&gt;= <span class="num">1</span>;
+        bit++;
+    }
+}
+<span class="kw">void</span> <span class="fn">step</span>(<span class="kw">int</span> x, ll y){
+    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i &lt; sz; i++) ndp[i] = NEG;
+    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= cnt; i++){
+        <span class="kw">int</span> a = u[i], b = v[i], t = w[i];
+        ll val = dp[(t - <span class="num">1</span>) * n + a];
+        <span class="kw">if</span>(val == NEG) <span class="kw">continue</span>;
+        val += c[b];
+        <span class="kw">if</span>(b == x) val += y;
+        ndp[b] = <span class="fn">max</span>(ndp[b], val);
+    }
+    <span class="kw">for</span>(<span class="kw">int</span> j = <span class="num">1</span>; j &lt; <span class="num">5</span>; j++){
+        <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i &lt; n; i++){
+            ndp[j * n + i] = dp[(j - <span class="num">1</span>) * n + i];
+        }
+    }
+    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i &lt; sz; i++) dp[i] = ndp[i];
+}
+<span class="kw">void</span> <span class="fn">init</span>(){
+    ios::<span class="fn">sync_with_stdio</span>(<span class="kw">false</span>);
+    cin.<span class="fn">tie</span>(<span class="kw">nullptr</span>);
+    cin &gt;&gt; n &gt;&gt; m &gt;&gt; T &gt;&gt; k;
+    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i &lt; n; i++) cin &gt;&gt; c[i];
+    cnt = m;
+    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= m; i++){
+        cin &gt;&gt; u[i] &gt;&gt; v[i] &gt;&gt; w[i];
+        u[i]--;
+        v[i]--;
+    }
+    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= k; i++){
+        cin &gt;&gt; e[i].t &gt;&gt; e[i].x &gt;&gt; e[i].y;
+        e[i].x--;
+    }
+    <span class="fn">sort</span>(e + <span class="num">1</span>, e + k + <span class="num">1</span>, cmp);
+}
+<span class="kw">void</span> <span class="fn">solve</span>(){
+    sz = <span class="num">5</span> * n;
+    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i &lt; sz; i++){
+        <span class="kw">for</span>(<span class="kw">int</span> j = <span class="num">0</span>; j &lt; sz; j++){
+            pw[<span class="num">0</span>][i][j] = NEG;
+        }
+    }
+    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= m; i++){
+        <span class="kw">int</span> a = u[i], b = v[i], t = w[i];
+        pw[<span class="num">0</span>][b][(t - <span class="num">1</span>) * n + a] = <span class="fn">max</span>(pw[<span class="num">0</span>][b][(t - <span class="num">1</span>) * n + a], c[b]);
+    }
+    <span class="kw">for</span>(<span class="kw">int</span> j = <span class="num">1</span>; j &lt; <span class="num">5</span>; j++){
+        <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i &lt; n; i++){
+            pw[<span class="num">0</span>][j * n + i][(j - <span class="num">1</span>) * n + i] = <span class="num">0</span>;
+        }
+    }
+    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">1</span>; i &lt; LOG; i++) <span class="fn">mul</span>(i - <span class="num">1</span>);
+    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i &lt; sz; i++) dp[i] = NEG;
+    dp[<span class="num">0</span>] = c[<span class="num">0</span>];
+    ll cur = <span class="num">0</span>;
+    <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= k; i++){
+        <span class="fn">go</span>(e[i].t - cur - <span class="num">1</span>);
+        <span class="fn">step</span>(e[i].x, e[i].y);
+        cur = e[i].t;
+    }
+    <span class="fn">go</span>(T - cur);
+    <span class="kw">if</span>(dp[<span class="num">0</span>] == NEG) cout &lt;&lt; <span class="num">-1</span>;
+    <span class="kw">else</span> cout &lt;&lt; dp[<span class="num">0</span>];
+}
+<span class="kw">int</span> <span class="fn">main</span>(){
+    <span class="fn">init</span>();
+    <span class="fn">solve</span>();
+}</code></pre>
+
+<h2>4. Chạy thử</h2>
+<div class="demo">
+  <div class="io">
+    <div>
+      <label style="font-size:13px; color:#656d76">Input</label>
+      <textarea id="inp2">3 4 11 0
+1 3 4
+1 2 1
+2 1 3
+2 3 2
+3 1 4</textarea>
+      <button onclick="runTrip02()">▶ Chạy</button>
+    </div>
+    <div>
+      <label style="font-size:13px; color:#656d76">Output</label>
+      <div class="out" id="out2">—</div>
+    </div>
+  </div>
+</div>
+
+<div class="demo">
+  <h3 style="margin-top:0">📊 Đồ thị (có trọng số thời gian)</h3>
+  <canvas id="graph2" width="820" height="420"
+    style="width:100%; background:#fff; border:1px solid #d0d7de; border-radius:6px;"></canvas>
+  <div style="margin-top:10px; font-size:13px; color:#656d76">
+    🔴 Đỉnh 1 (xuất phát) · 🔵 Đỉnh khác · Số trên cung = trọng số w · ★ = sự kiện
+  </div>
+</div>
+
+<div class="demo">
+  <h3 style="margin-top:0">🧪 Test từ đề gốc</h3>
+  <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px">
+    <button onclick="loadTest2(0)" style="background:#0969da">Ví dụ 1</button>
+    <button onclick="loadTest2(1)" style="background:#0969da">Ví dụ 2</button>
+  </div>
+  <div id="explain2" style="background:#fff; border:1px solid #d0d7de; border-radius:6px; padding:12px 16px; font-size:14px;"></div>
+</div>
+
+</div>
+
+<footer>TRIP02 · congthanhvip.github.io · 2026-10-10</footer>
+
+<script>
 const TESTS2 = [
   {
-    name: "Test 1 (đề ví dụ 1)",
+    name: "Ví dụ 1",
     input: "3 4 11 0\n1 3 4\n1 2 1\n2 1 3\n2 3 2\n3 1 4",
     explain: `
       <strong>Input:</strong> N=3, M=4, T=11, K=0, c=[1,3,4].<br>
-      Cung: 1→2(w=1), 2→1(w=3), 2→3(w=2), 3→1(w=4).<br><br>
+      Cung: 1→2 (w=1), 2→1 (w=3), 2→3 (w=2), 3→1 (w=4).<br><br>
       <strong>Hành trình tối ưu (11 bước):</strong><br>
       t=0: đỉnh 1, +c₁=1<br>
       t=1: đỉnh 2 (cung 1→2 w=1), +c₂=3<br>
@@ -572,45 +784,20 @@ const TESTS2 = [
     `
   },
   {
-    name: "Test 2 (đề ví dụ 2, có sự kiện)",
+    name: "Ví dụ 2",
     input: "3 3 8 2\n5 2 10\n1 2 3\n2 3 2\n3 1 3\n4 2 100\n8 1 50",
     explain: `
       <strong>Input:</strong> N=3, M=3, T=8, K=2, c=[5,2,10].<br>
-      Cung: 1→2(w=3), 2→3(w=2), 3→1(w=3).<br>
+      Cung: 1→2 (w=3), 2→3 (w=2), 3→1 (w=3).<br>
       Sự kiện: (t=4, x=2, y=100), (t=8, x=1, y=50).<br><br>
       <strong>Hành trình:</strong><br>
       t=0: đỉnh 1, +5. Đi cung 1→2 (w=3).<br>
       t=3: đến đỉnh 2, +2.<br>
-      t=4: vẫn đang trên đường (chưa đến đỉnh nào mới).<br>
-      <strong style="color:#cf222e">→ Sự kiện (4, 2, 100) KHÔNG được nhận</strong> vì tại t=3 đã rời đỉnh 2.<br>
+      t=4: đang ở đỉnh 2. Sự kiện (4, 2, 100) <strong>được nhận</strong> → +100.<br>
+      Đi cung 2→3 (w=2).<br>
       t=5: đến đỉnh 3, +10. Đi cung 3→1 (w=3).<br>
-      t=8: đến đỉnh 1, +5.<br>
-      <strong style="color:#1a7f37">→ Sự kiện (8, 1, 50) ĐƯỢC nhận</strong>, cộng thêm 50.<br><br>
-      <strong>Tổng:</strong> 5+2+10+5+50 = <strong style="color:#1a7f37">72</strong>
-    `
-  },
-  {
-    name: "Test 3 (không về được)",
-    input: "2 1 5 0\n3 7\n1 2 2",
-    explain: `
-      <strong>Input:</strong> N=2, M=1, T=5, K=0, c=[3,7], cung: 1→2 (w=2).<br><br>
-      Từ 1 chỉ đi tới 2, từ 2 không có cung nào đi ra → không thể quay về 1.<br>
-      <strong>Kết quả:</strong> <strong style="color:#cf222e">-1</strong>
-    `
-  },
-  {
-    name: "Test 4 (sự kiện đúng lúc đến)",
-    input: "2 2 4 1\n2 5\n1 2 2\n2 1 2\n2 2 10",
-    explain: `
-      <strong>Input:</strong> N=2, M=2, T=4, K=1, c=[2,5].<br>
-      Cung: 1→2(w=2), 2→1(w=2).<br>
-      Sự kiện: (t=2, x=2, y=10).<br><br>
-      <strong>Hành trình:</strong><br>
-      t=0: đỉnh 1, +2. Đi cung 1→2 (w=2).<br>
-      t=2: <strong>đến đỉnh 2 đúng lúc</strong>, +c₂=5, <strong style="color:#1a7f37">+10 (sự kiện)</strong>.<br>
-      Đi cung 2→1 (w=2).<br>
-      t=4: đến đỉnh 1, +2.<br><br>
-      <strong>Tổng:</strong> 2+5+10+2 = <strong style="color:#1a7f37">19</strong>
+      t=8: đến đỉnh 1, +5. Sự kiện (8, 1, 50) <strong>được nhận</strong> → +50.<br><br>
+      <strong>Tổng:</strong> 5+2+100+10+5+50 = <strong style="color:#1a7f37">72</strong>
     `
   }
 ];
@@ -648,7 +835,6 @@ function runTrip02(){
     const NEG = -1e15;
     const sz = 5 * n;
 
-    // pw[0] = ma trận cơ sở
     let pw = [];
     pw[0] = [];
     for (let i = 0; i < sz; i++) pw[0].push(new Array(sz).fill(NEG));
@@ -660,7 +846,6 @@ function runTrip02(){
       for (let i = 0; i < n; i++)
         pw[0][j*n + i][(j-1)*n + i] = 0;
 
-    // Nhân ma trận max-plus
     function mulMat(x, y){
       const z = [];
       for (let i = 0; i < sz; i++) z.push(new Array(sz).fill(NEG));
@@ -677,7 +862,6 @@ function runTrip02(){
       return z;
     }
 
-    // Tiền xử lý M^(2^bit)
     const LOG = 30;
     for (let b = 1; b < LOG; b++) pw[b] = mulMat(pw[b-1], pw[b-1]);
 
@@ -731,7 +915,7 @@ function runTrip02(){
     out.textContent = dp[0] === NEG ? "-1" : String(dp[0]);
     drawGraph2(n, c, edges, events);
   } catch(e){
-    out.textContent = "Lỗi: " + e.message;
+    out.textContent = "Lỗi input: " + e.message;
   }
 }
 
@@ -740,8 +924,8 @@ function drawGraph2(n, c, edges, events){
   const ctx = cv.getContext('2d');
   const W = cv.width, H = cv.height;
   ctx.clearRect(0, 0, W, H);
-  const cx = W/2, cy = H/2, R = Math.min(W,H)/2 - 80;
-  const pos = {};
+  const cx = W/2, cy = H/2, R = Math.min(W,H)/2 - 90;
+    const pos = {};
   for (let i = 0; i < n; i++){
     const ang = -Math.PI/2 + i*2*Math.PI/n;
     pos[i] = { x: cx + R*Math.cos(ang), y: cy + R*Math.sin(ang) };
@@ -814,9 +998,18 @@ function drawGraph2(n, c, edges, events){
   }
 }
 
+function arrow(ctx, x, y, ang, col){
+  const s = 10;
+  ctx.beginPath();
+  ctx.moveTo(x,y);
+  ctx.lineTo(x - s*Math.cos(ang - Math.PI/7), y - s*Math.sin(ang - Math.PI/7));
+  ctx.lineTo(x - s*Math.cos(ang + Math.PI/7), y - s*Math.sin(ang + Math.PI/7));
+  ctx.closePath();
+  ctx.fillStyle = col; ctx.fill();
+}
+
 runTrip02();
 </script>
 
 </body>
 </html>
- 
